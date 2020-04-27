@@ -2,7 +2,7 @@
 class block_tutorvirtual extends block_base {
 
     public function init() {
-        $this->title = get_string('simplehtml', 'block_simplehtml');
+        $this->title = get_string('Títulooooooooooo', 'block_simplehtml');
     }
     // The PHP tag and the curly bracket for the class definition 
     // will only be closed after there is another function added in the next section.
@@ -12,9 +12,10 @@ class block_tutorvirtual extends block_base {
         return $this->content;
       }
    
+      $course = $this->page->cm;
       $this->content         =  new stdClass;
-      $this->content->text   = 'The content of our SimpleHTML block!';
-      $this->content->footer = 'Footer here...';
+      $this->content->image  = 'Ya funcionaaaaanaaaaa <br><br> aaaaaaaa <br><br> xxxxxxxxx';
+      $this->content->footer = 'Holaaaaaaaa';
    
       return $this->content;
   }
