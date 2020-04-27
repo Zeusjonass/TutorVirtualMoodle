@@ -1,5 +1,11 @@
 <?php
-$string['pluginname'] = 'Simple HTML block';
-$string['simplehtml'] = 'Simple HTML';
-$string['simplehtml:addinstance'] = 'Add a new simple HTML block';
-$string['simplehtml:myaddinstance'] = 'Add a new simple HTML block to the My Moodle page';
+$$string['pluginname'] = 'Tutor virtual';
+$string['tutorVirtual'] = 'Virtual tutor';
+$string['tutorVirtual:addinstance'] = 'Add a new virtual tutor block';
+$string['tutorVirtual:myaddinstance'] = 'Add a new virtual tutor block to your moodle page';
+$string['mensajeriaProfe'] = 'Messaging with the teacher';
+$string['notificacionesTarea'] = 'Homework notifications';
+$string['material'] = 'Class material';
+$string['dudasPlat'] = 'Frequent platform doubts';
+$string['dudasTarea'] = 'Homework or topic frequent doubts';
+$string['notifMensaje'] = 'Message notifications';
