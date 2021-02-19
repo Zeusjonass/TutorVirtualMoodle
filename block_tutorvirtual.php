@@ -21,7 +21,9 @@
       // will only be closed after there is another function added in the next section.
 
       public function get_content() {
-        global $COURSE, $DB, $PAGE, $CFG;;
+        global $COURSE, $DB, $PAGE, $CFG;
+
+        $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/styles.css'));
 
         if ($this->content !== null) {
           return $this->content;
