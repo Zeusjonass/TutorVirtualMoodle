@@ -1,0 +1,34 @@
+#div-arrastrable {
+    position: absolute;
+    /*cursor: move;*/
+    z-index: 1000; 
+}
+
+#imagen{
+    width: 100px; 
+    height: 100px;
+    cursor: move;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0px 0px 8px 0px rgba(0,0,0,.1);
+    z-index: 1;
+    right: 100%;
+    top:-50%;
+}
+
+.opcion{
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+}
+
+.opcion:hover{
+    background-color: antiquewhite;
+}

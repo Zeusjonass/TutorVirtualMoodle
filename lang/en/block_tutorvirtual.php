@@ -9,3 +9,5 @@ $string['material'] = 'Class material';
 $string['dudasPlat'] = 'Frequent platform doubts';
 $string['dudasTarea'] = 'Homework or topic frequent doubts';
 $string['notifMensaje'] = 'Message notifications';
+$string['botonActividades'] = 'Actividades';
+$string['footerDescripcion'] = 'Curso ';
