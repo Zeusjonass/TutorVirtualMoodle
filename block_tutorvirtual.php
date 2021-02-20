@@ -3,6 +3,7 @@
 </head>
 <body>
   <?php
+<<<<<<< HEAD
 
   /*require(__DIR__.'../config.php');  C:\xampp7\htdocs\moodle
   style='color: blue; background-color: lightblue;'
@@ -98,6 +99,89 @@
     }
 
 
+=======
+
+  /*require(__DIR__.'../config.php');  C:\xampp7\htdocs\moodle
+  style='color: blue; background-color: lightblue;'
+  */
+
+  defined('MOODLE_INTERNAL') || die();
+  require_once('../config.php');
+  require_once("$CFG->libdir/formslib.php");
+  class block_tutorvirtual extends block_list {
+
+
+      public function init() {
+      }
+
+      // The PHP tag and the curly bracket for the class definition
+      // will only be closed after there is another function added in the next section.
+
+      public function get_content() {
+        global $COURSE, $DB, $PAGE, $CFG;
+
+        $PAGE->requires->css(new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/styles.css'));
+
+        if ($this->content !== null) {
+          return $this->content;
+        }
+
+        $this->content         =  new stdClass;
+        $this->content->items = array();
+        $this->content->icons = array();
+
+        $this->page->requires->js_call_amd('block_tutorvirtual/script', 'init');
+        //tomar input del usuario para enviarlo al profesor
+            if (isset($_POST['textfield'])) {
+              $message_content = $_POST['textfield'];
+              $this->enviarMensaje($message_content);
+              return;
+            }
+
+            //Mensaje personalizado al profesor.
+
+        //$this->content->items[]  = '<button><img src="/moodle/blocks/tutorvirtual/huellita.png" draggable=true width="100px" height="100px""/></button>';
+        $this->content->items[]  = "<input id='imagen' type='image' src='https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png' width='100px' height='100px' href='myFunction()' />";
+        //$this->content->items[] = "<img class='imagen' src='https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png' draggable=true style='margin-top:15px; border-radius: 30px; position:center;' onclick=location.href='https://www.facebook.com/stories/1825005327519671/UzpfSVNDOjEwMjE5NTM2NTA3ODU2Mzk3/?source=story_tray%27%3E</img>";
+        $this->content->items[] = '<div id="menu" class="dropdown-content" style="display:none;right: 100%; bottom: 0;position: absolute;background-color: #f1f1f1;min-width: 160px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);z-index: 1;">
+                                      <button class="btn" id= "menuActividades" style="font-size: 17px;" >Actividades</button>
+                                      <a href="#" style="color: black;padding: 12px 16px;text-decoration: none;display: block;">Notificaciones</a>
+                                      <a id= "menuActividadess" href="#" style="color: black;padding: 12px 16px;text-decoration: none;display: block;">Actividades</a>
+                                      <a id= "menuRecursos" href="#" style="color: black;padding: 12px 16px;text-decoration: none;display: block;">Recursos</a>
+                                      <a href="#" style="color: black;padding: 12px 16px;text-decoration: none;display: block;">Enviar mensaje al profesor</a>
+                                      <a href="#" style="color: black;padding: 12px 16px;text-decoration: none;display: block;">Otros</a>
+                                   </div>';
+          $courseid = $PAGE->course->id;
+          $course = $this->page->cm;
+
+           $modules = $DB->get_records('grade_items', array('courseid' => $courseid,'itemtype' => 'mod' ), '', 'itemname, itemmodule, iteminstance', 0, 0);
+           $moduleItem = array_column($modules, 'itemmodule');
+           $moduleInstance = array_column($modules, 'iteminstance');
+           $moduleName = array_column($modules, 'itemname');
+           $imprimirActividades =
+           $n=count($moduleItem);
+
+           $actividades = html_writer::start_tag('div', array('class'=>'dropdown-content','style'=>'display:none; right: 100%; bottom: 0; position: absolute;background-color: #f1f1f1;min-width: 160px;box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);z-index: 1;', 'id'=>'imprimirActividades'));
+           for ($i=0; $i <$n; $i++) {
+             $id = $DB->get_field('course_modules', 'id', array('course' => $courseid, 'module' => $DB->get_field('modules', 'id', array('name' => $moduleItem[$i]), $strictness=IGNORE_MISSING),'instance' => $moduleInstance[$i] ), $strictness=IGNORE_MISSING);
+             $actividades .= html_writer::link($CFG->wwwroot."/mod/".$moduleItem[$i]."/view.php?id=".$id, $moduleName[$i]);
+             $actividades .= '<br>';
+           }
+           html_writer::end_tag('div');
+           $this->content->items[] = $actividades;
+
+          //$this->content->items[] = html_writer::tag('div', html_writer::tag('span', "Actividades", array('class'=>'foo')), array('class'=>'blah','id'=>'imprimirActividades', 'style'=>'display:none;'));
+          //$this->imprimirActividades();
+          //$this->imprimirRecursos();
+          $url = new moodle_url('/blocks/block_tutorvirtual/view.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
+          $this->content->footer = html_writer::link($url, get_string('tutorVirtual', 'block_tutorvirtual'));
+
+          //Mensaje personalizado al profesor.
+          //$this->content->items[] = '<form method="post" action=""><input type="text" name="textfield" id="textfield"><input type="submit" name="button" id="button" value="Enviar"></form>';
+
+          return $this->content;
+    }
+>>>>>>> cd4fa612ef2b7dc99097efbff43ccdebc83a50eb
     function definition() {
       global $CFG;
 
@@ -127,6 +211,7 @@
           $this->send_message_to_course_teacher($USER, $teacher, $PAGE, $message_content);
           $this->content->items[] = "Se ha enviado su mensaje";
         }
+<<<<<<< HEAD
       }
       function get_course_teachers(mariadb_native_moodle_database $DB, moodle_page $PAGE) {
         $courseid = $PAGE->course->id;
@@ -135,6 +220,16 @@
         $teachers = get_role_users($role->id, $context);
         return $teachers;
       }
+=======
+      }
+      function get_course_teachers(mariadb_native_moodle_database $DB, moodle_page $PAGE) {
+        $courseid = $PAGE->course->id;
+        $role = $DB->get_record('role', array('shortname' => 'editingteacher'));
+        $context = get_context_instance(CONTEXT_COURSE, $courseid);
+        $teachers = get_role_users($role->id, $context);
+        return $teachers;
+      }
+>>>>>>> cd4fa612ef2b7dc99097efbff43ccdebc83a50eb
       function send_message_to_course_teacher(stdClass $USER, stdClass $teacher, moodle_page $PAGE, $message_content) {
         //create message
         $message = new \core\message\message();
