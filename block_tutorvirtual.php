@@ -41,28 +41,18 @@
           return;
         }
 
-        //Menú
-        $this->content->items[]  = 
-        '
-        <div id="div-arrastrable">
-          <img id="imagen" src = "https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png">
-          <div id="menu" class="dropdown-content">
-            <a id="menuActividades" class="opcion">Actividades</a>
-            <a id="menuRecursos" class="opcion">Recursos</a>
-            <a id="menuEnviarMensaje" class="opcion">Mensaje al profesor</a>
-            <a id="menuNotificaciones" class="opcion">Notificaciones</a>
-            <a id="menuPreguntasFrecuentes" class="opcion">Preguntas frecuentes</a>
-          </div>
-        </div>
-        ';
-
-        /*$menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
-        $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png'));
-        $menu .= html_writer::start_tag('div', array('id'=>'menu', 'class'=>'dropdown-content'));
-        //$menu .= html_writer::empty_tag('a', array('id'=>'menuActividades', 'class'=>'opcion'));
+        //Menú Principal
+        $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
+          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png'));
+          $menu .= html_writer::start_tag('div', array('id'=>'menu', 'class'=>'dropdown-content'));
+            $menu .= '<a id="menuActividades" class="opcion">Actividades</a>';
+            $menu .= '<a id="menuRecursos" class="opcion">Recursos</a>';
+            $menu .= '<a id="menuEnviarMensaje" class="opcion">Mensaje al profesor</a>';
+            $menu .= '<a id="menuNotificaciones" class="opcion">Notificaciones</a>';
+            $menu .= '<a id="menuPreguntasFrecuentes" class="opcion">Preguntas frecuentes</a>';
+          html_writer::end_tag('div');
         html_writer::end_tag('div');
-        html_writer::end_tag('div');
-        $this->content->items[] = $menu;*/
+        $this->content->items[] = $menu;
 
         //Lista de Actividades
         $courseid = $PAGE->course->id;
@@ -76,18 +66,18 @@
         $n = count($moduleItem);
 
         $actividades = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirActividades'));
-        for ($i=0; $i <$n; $i++) {
-          $id = $DB->get_field('course_modules', 'id', array('course' => $courseid, 'module' => $DB->get_field('modules', 'id', array('name' => $moduleItem[$i]), $strictness=IGNORE_MISSING),'instance' => $moduleInstance[$i] ), $strictness=IGNORE_MISSING);
-          $actividades .= html_writer::link($CFG->wwwroot . "/mod/" . $moduleItem[$i]."/view.php?id=".$id, $moduleName[$i]);
-          $actividades .= '<br>';
-        }
-        $this->content->items[] = $actividades;
+          for ($i=0; $i<$n; $i++) {
+            $id = $DB->get_field('course_modules', 'id', array('course' => $courseid, 'module' => $DB->get_field('modules', 'id', array('name' => $moduleItem[$i]), $strictness=IGNORE_MISSING),'instance' => $moduleInstance[$i] ), $strictness=IGNORE_MISSING);
+            $actividades .= html_writer::link($CFG->wwwroot . "/mod/" . $moduleItem[$i]."/view.php?id=".$id, $moduleName[$i]);
+            $actividades .= html_writer::empty_tag('br');
+          }
+          $this->content->items[] = $actividades;
         html_writer::end_tag('div');
 
         //Mensaje al Profesor
         $inputMensaje = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'class'=>'dropdown-content', 'id'=>'inputMensaje'));
-        $inputMensaje .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'textfield', 'id'=>'textfield'));
-        $inputMensaje .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
+          $inputMensaje .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'textfield', 'id'=>'textfield'));
+          $inputMensaje .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
         html_writer::end_tag('form');
         $this->content->items[] = $inputMensaje;
 
@@ -105,7 +95,6 @@
         return $this->content;
     }
 
-
     function definition() {
       global $CFG;
 
@@ -114,6 +103,7 @@
       $mform->addElement('button', 'intro', get_string("buttonlabel"));
 
     }
+
     function has_config() {
       return true;
     }
@@ -121,11 +111,13 @@
     function instance_allow_config() {
       return true;
     }
+
     function refresh_content() {
       // Nothing special here, depends on content()
       $this->content = NULL;
       return $this->get_content();
     }
+
     public function enviarMensaje($message_content){
         global $DB;
         global $PAGE;
@@ -136,6 +128,7 @@
           $this->content->items[] = "Se ha enviado su mensaje";
         }
       }
+
       function get_course_teachers(mariadb_native_moodle_database $DB, moodle_page $PAGE) {
         $courseid = $PAGE->course->id;
         $role = $DB->get_record('role', array('shortname' => 'editingteacher'));
@@ -143,6 +136,7 @@
         $teachers = get_role_users($role->id, $context);
         return $teachers;
       }
+      
       function send_message_to_course_teacher(stdClass $USER, stdClass $teacher, moodle_page $PAGE, $message_content) {
         //create message
         $message = new \core\message\message();
@@ -171,6 +165,7 @@
         //send message
         $messageid = message_send($message);
     }
+
     function random_strings($length_of_string) {
       // String of all alphanumeric character
       $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
@@ -178,7 +173,7 @@
       return substr(str_shuffle($str_result),0, $length_of_string);
     }
 
-     function imprimirActividades(){
+    function imprimirActividades(){
       global $DB;
       global $PAGE;
       $courseid = $PAGE->course->id;
@@ -410,7 +405,6 @@
           $this->content->items[] = $urlcourse;
       }
       $this->content->items[] = '<br>';
-
     }
   }
   ?>

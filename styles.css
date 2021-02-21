@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #div-arrastrable {
     position: absolute;
     /*cursor: move;*/
@@ -12,7 +11,7 @@
 }
 
 .dropdown-content {
-    display: none;
+    display: block;
     position: absolute;
     background-color: white;
     min-width: 160px;
@@ -33,11 +32,3 @@
 .opcion:hover{
     background-color: antiquewhite;
 }
-=======
-.block_tutorvirtual .imagen {
-    margin-top: 15px;
-    width: 100px;
-    height: 100px;
-    border-radius: 100%;
-}
->>>>>>> cd4fa612ef2b7dc99097efbff43ccdebc83a50eb
