@@ -43,7 +43,7 @@
 
         //Menú Principal
         $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
-          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://cdn.discordapp.com/attachments/699813602328051765/705960260653023282/huellita.png'));
+          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
           $menu .= html_writer::start_tag('div', array('id'=>'menu', 'class'=>'dropdown-content'));
             $menu .= '<a id="menuActividades" class="opcion">Actividades</a>';
             $menu .= '<a id="menuRecursos" class="opcion">Recursos</a>';
