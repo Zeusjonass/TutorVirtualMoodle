@@ -7,28 +7,37 @@ window.onclick = function(event) {
   var enviarMensaje = document.getElementById('menuEnviarMensaje');
   var inputMensaje = document.getElementById('inputMensaje');
   var textfield = document.getElementById('textfield');
-  if(event.target == enviarMensaje || event.target == textfield){
+  var menuRecursos = document.getElementById('menuRecursos');
+  var imprimirRecursos = document.getElementById('imprimirRecursos');
+  if(event.target == menuRecursos){
     menu.style.display='none';
-    inputMensaje.style.display='block';
+    imprimirRecursos.style.display='block';
   }
   else{
-    inputMensaje.style.display='none';
-    if(event.target == menuActividades){
-      imprimirActividades.style.display='block';
+    imprimirRecursos.style.display='none';
+    if(event.target == enviarMensaje || event.target == textfield){
       menu.style.display='none';
+      inputMensaje.style.display='block';
     }
     else{
-      if(event.target != inputMensaje){
-        imprimirActividades.style.display='none';
-      }
-      if (event.target == imagen) {
-        if (menu.style.display=='block') {
-          menu.style.display='none';
-        }else {
-          menu.style.display='block';
-        }
-      }else {
+      inputMensaje.style.display='none';
+      if(event.target == menuActividades){
+        imprimirActividades.style.display='block';
         menu.style.display='none';
+      }
+      else{
+        if(event.target != inputMensaje){
+          imprimirActividades.style.display='none';
+        }
+        if (event.target == imagen) {
+          if (menu.style.display=='block') {
+            menu.style.display='none';
+          }else {
+            menu.style.display='block';
+          }
+        }else {
+          menu.style.display='none';
+        }
       }
     }
   }
