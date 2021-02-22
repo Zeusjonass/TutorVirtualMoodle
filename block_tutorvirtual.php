@@ -49,24 +49,46 @@
         $this->content->items[] = $menu;
 
         //Lista de Actividades
-        $courseid = $PAGE->course->id;
-        $course = $this->page->cm;
-
-        $modules = $DB->get_records('grade_items', array('courseid' => $courseid,'itemtype' => 'mod' ), '', 'itemname, itemmodule,iteminstance', 0, 0);
-        $moduleItem = array_column($modules, 'itemmodule');
-        $moduleInstance = array_column($modules, 'iteminstance');
-        $moduleName = array_column($modules, 'itemname');
-
-        $n = count($moduleItem);
-
+        $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
         $actividades = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirActividades'));
-          for ($i=0; $i<$n; $i++) {
-            $id = $DB->get_field('course_modules', 'id', array('course' => $courseid, 'module' => $DB->get_field('modules', 'id', array('name' => $moduleItem[$i]), $strictness=IGNORE_MISSING),'instance' => $moduleInstance[$i] ), $strictness=IGNORE_MISSING);
-            $actividades .= html_writer::link($CFG->wwwroot . "/mod/" . $moduleItem[$i]."/view.php?id=".$id, $moduleName[$i]);
-            $actividades .= html_writer::empty_tag('br');
+        foreach($tiposActividades as $tipoActividad) {
+          if ($tipoActividad == 'h5p') {
+            //$sql = '';
+          }else {
+            if ($tipoActividad == 'forum') {
+              $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+              ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+              $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+              $moduleId = array_column($modules, 'id');
+              $moduleType = array_column($modules, 'type');
+              $moduleInstance = array_column($modules, 'instance');
+              $moduleName = array_column($modules, 'name');
+              for ($i=0; $i<count($moduleId); $i++) {
+                if ($moduleName[$i] != 'Avisos') {
+                  $actividades .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                  $actividades .= '<br>';
+                }
+              }
+            }else {
+              $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+              ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+              $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+              $moduleId = array_column($modules, 'id');
+              $moduleType = array_column($modules, 'type');
+              $moduleInstance = array_column($modules, 'instance');
+              $moduleName = array_column($modules, 'name');
+
+              for ($i=0; $i <count($moduleId); $i++) {
+                $actividades .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                $actividades .= '<br>';
+              }
+            }
           }
-          $this->content->items[] = $actividades;
+        }
         html_writer::end_tag('div');
+        $this->content->items[] = $actividades;
 
         //Mensaje al Profesor
         $inputMensaje = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'class'=>'dropdown-content', 'id'=>'inputMensaje'));
@@ -85,7 +107,7 @@
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
             FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
             ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
             $moduleInstance = array_column($modules, 'instance');
