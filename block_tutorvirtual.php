@@ -67,7 +67,7 @@
               for ($i=0; $i<count($moduleId); $i++) {
                 if ($moduleName[$i] != 'Avisos') {
                   $actividades .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $actividades .= '<br>';
+                  $actividades .= html_writer::empty_tag('br');
                 }
               }
             }else {
