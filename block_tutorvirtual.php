@@ -4,10 +4,6 @@
 <body>
   <?php
 
-  /*require(__DIR__.'../config.php');  C:\xampp7\htdocs\moodle
-  style='color: blue; background-color: lightblue;'
-  */
-
   defined('MOODLE_INTERNAL') || die();
   require_once('../config.php');
   require_once("$CFG->libdir/formslib.php");
@@ -16,9 +12,6 @@
       public function init() {
 
       }
-
-      // The PHP tag and the curly bracket for the class definition
-      // will only be closed after there is another function added in the next section.
 
       public function get_content() {
         global $COURSE, $DB, $PAGE, $CFG;
@@ -49,7 +42,8 @@
             $menu .= '<a id="menuRecursos" class="opcion">Recursos</a>';
             $menu .= '<a id="menuEnviarMensaje" class="opcion">Mensaje al profesor</a>';
             $menu .= '<a id="menuNotificaciones" class="opcion">Notificaciones</a>';
-            $menu .= '<a id="menuPreguntasFrecuentes" class="opcion">Preguntas frecuentes</a>';
+            $menu .= '<a id="menuPreguntasFrecPlataforma" class="opcion">Preguntas frecuentes de la Plataforma</a>';
+            $menu .= '<a id="menuPreguntasFrecCurso" class="opcion">Preguntas frecuentes del Curso</a>';
           html_writer::end_tag('div');
         html_writer::end_tag('div');
         $this->content->items[] = $menu;
@@ -81,16 +75,30 @@
         html_writer::end_tag('form');
         $this->content->items[] = $inputMensaje;
 
-        //$this->imprimirActividades();
-        //$this->imprimirRecursos();
-        //$url = new moodle_url('/blocks/block_tutorvirtual/view.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
-        //$this->content->footer = html_writer::link($url, get_string('tutorVirtual', 'block_tutorvirtual'));
+        //Lista de Recursos
+        $tiposRecursos = array('book','files','folder','imscp','label', 'page','url');
+        $recursos = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirRecursos'));   
+        foreach($tiposRecursos as $tipoRecurso) {
+          if ($tipoRecurso == 'files') {
+            //$sql = '';
+          }else {
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+            FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+            ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+            $moduleId = array_column($modules, 'id');
+            $moduleType = array_column($modules, 'type');
+            $moduleInstance = array_column($modules, 'instance');
+            $moduleName = array_column($modules, 'name');
 
-        //$this->content->items[] = html_writer::tag('div', html_writer::tag('span', "Actividades", array('class'=>'foo')), array('class'=>'blah','id'=>'imprimirActividades', 'style'=>'display:none;'));
-        //$this->imprimirActividades();
-        //$this->imprimirRecursos();
-        //$url = new moodle_url('/blocks/block_tutorvirtual/view.php', array('blockid' => $this->instance->id, 'courseid' => $COURSE->id));
-        //$this->content->footer = html_writer::link($url, get_string('tutorVirtual', 'block_tutorvirtual'));
+            for ($i=0; $i<count($moduleId); $i++) {
+              $recursos .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+              $recursos .= html_writer::empty_tag('br');
+            }
+          }
+        }
+        html_writer::end_tag('div');
+        $this->content->items[] = $recursos;
 
         return $this->content;
     }
