@@ -34,13 +34,6 @@
         $this->content->items = array();
         $this->content->icons = array();
 
-        //Tomar input del usuario para enviarlo al profesor
-        if (isset($_POST['textfield'])) {
-          $message_content = $_POST['textfield'];
-          $this->enviarMensaje($message_content);
-          return;
-        }
-
         //Menú Principal
         $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
           $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
@@ -80,6 +73,12 @@
           $inputMensaje .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
         html_writer::end_tag('form');
         $this->content->items[] = $inputMensaje;
+        //Tomar input del usuario para enviarlo al profesor
+        if (isset($_POST['textfield'])) {
+          $message_content = $_POST['textfield'];
+          $this->enviarMensaje($message_content);
+          return;
+        }
 
         //$this->imprimirActividades();
         //$this->imprimirRecursos();
@@ -125,7 +124,6 @@
         $teachers = $this->get_course_teachers($DB, $PAGE);
         foreach ($teachers as $teacher) {
           $this->send_message_to_course_teacher($USER, $teacher, $PAGE, $message_content);
-          $this->content->items[] = "Se ha enviado su mensaje";
         }
       }
 
