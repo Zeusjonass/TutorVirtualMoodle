@@ -28,13 +28,6 @@
       $this->content->items = array();
       $this->content->icons = array();
 
-      //tomar input del usuario para enviarlo al profesor
-      if (isset($_POST['textfield'])) {
-        $message_content = $_POST['textfield'];
-        $this->enviarMensaje($message_content);
-        return;
-      }
-
       //Menú Principal
       $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
@@ -131,6 +124,12 @@
                 $menu .= html_writer::end_tag('li');
               $menu .= html_writer::end_tag('ul');
             $menu .= html_writer::end_tag('li');
+            //tomar input del usuario para enviarlo al profesor
+            if (isset($_POST['textfield'])) {
+              $message_content = $_POST['textfield'];
+              $this->enviarMensaje($message_content);
+              return;
+            }
             
             //Preguntas Plataforma
             $menu .= html_writer::start_tag('li');
