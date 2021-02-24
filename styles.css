@@ -1,13 +1,15 @@
 #div-arrastrable {
     position: absolute;
     /*cursor: move;*/
-    z-index: 1000; 
+    z-index: 1000;
+
 }
 
 #imagen{
-    width: 100px; 
+    width: 100px;
     height: 100px;
     cursor: move;
+
 }
 
 .dropdown-content {

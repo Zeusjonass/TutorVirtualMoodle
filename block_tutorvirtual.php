@@ -98,7 +98,7 @@
 
         //Lista de Recursos
         $tiposRecursos = array('book','files','folder','imscp','label', 'page','url');
-        $recursos = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirRecursos'));   
+        $recursos = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirRecursos'));
         foreach($tiposRecursos as $tipoRecurso) {
           if ($tipoRecurso == 'files') {
             //$sql = '';
@@ -164,7 +164,7 @@
         $teachers = get_role_users($role->id, $context);
         return $teachers;
       }
-      
+
       function send_message_to_course_teacher(stdClass $USER, stdClass $teacher, moodle_page $PAGE, $message_content) {
         //create message
         $message = new \core\message\message();
