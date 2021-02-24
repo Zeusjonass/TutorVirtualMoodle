@@ -19,6 +19,7 @@
         $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/amd/src/scriptact.js') );
         $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/amd/src/DragAndDrop.js') );
         $PAGE->requires->css( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/styles.css') );
+
         if ($this->content !== null) {
           return $this->content;
         }
@@ -27,102 +28,137 @@
         $this->content->items = array();
         $this->content->icons = array();
 
-        //Menú Principal
-        $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
-          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
-          $menu .= html_writer::start_tag('div', array('id'=>'menu', 'class'=>'dropdown-content'));
-            $menu .= '<a id="menuActividades" class="opcion">Actividades</a>';
-            $menu .= '<a id="menuRecursos" class="opcion">Recursos</a>';
-            $menu .= '<a id="menuEnviarMensaje" class="opcion">Mensaje al profesor</a>';
-            $menu .= '<a id="menuNotificaciones" class="opcion">Notificaciones</a>';
-            $menu .= '<a id="menuPreguntasFrecPlataforma" class="opcion">Preguntas frecuentes de la Plataforma</a>';
-            $menu .= '<a id="menuPreguntasFrecCurso" class="opcion">Preguntas frecuentes del Curso</a>';
-          html_writer::end_tag('div');
-        html_writer::end_tag('div');
-        $this->content->items[] = $menu;
-
-        //Lista de Actividades
-        $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
-        $actividades = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirActividades'));
-        foreach($tiposActividades as $tipoActividad) {
-          if ($tipoActividad == 'h5p') {
-            //$sql = '';
-          }else {
-            if ($tipoActividad == 'forum') {
-              $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-              ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-              $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-              $moduleId = array_column($modules, 'id');
-              $moduleType = array_column($modules, 'type');
-              $moduleInstance = array_column($modules, 'instance');
-              $moduleName = array_column($modules, 'name');
-              for ($i=0; $i<count($moduleId); $i++) {
-                if ($moduleName[$i] != 'Avisos') {
-                  $actividades .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $actividades .= html_writer::empty_tag('br');
-                }
-              }
-            }else {
-              $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-              ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-              $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-              $moduleId = array_column($modules, 'id');
-              $moduleType = array_column($modules, 'type');
-              $moduleInstance = array_column($modules, 'instance');
-              $moduleName = array_column($modules, 'name');
-
-              for ($i=0; $i <count($moduleId); $i++) {
-                $actividades .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                $actividades .= '<br>';
-              }
-            }
-          }
-        }
-        html_writer::end_tag('div');
-        $this->content->items[] = $actividades;
-
-        //Mensaje al Profesor
-        $inputMensaje = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'class'=>'dropdown-content', 'id'=>'inputMensaje'));
-          $inputMensaje .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'textfield', 'id'=>'textfield'));
-          $inputMensaje .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
-        html_writer::end_tag('form');
-        $this->content->items[] = $inputMensaje;
-        //Tomar input del usuario para enviarlo al profesor
+        //$this->page->requires->js_call_amd('block_tutorvirtual/script', 'init');
+        //tomar input del usuario para enviarlo al profesor
         if (isset($_POST['textfield'])) {
           $message_content = $_POST['textfield'];
           $this->enviarMensaje($message_content);
           return;
         }
 
-        //Lista de Recursos
-        $tiposRecursos = array('book','files','folder','imscp','label', 'page','url');
-        $recursos = html_writer::start_tag('div', array('class'=>'dropdown-content', 'id'=>'imprimirRecursos'));   
-        foreach($tiposRecursos as $tipoRecurso) {
-          if ($tipoRecurso == 'files') {
-            //$sql = '';
-          }else {
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-            FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
-            ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
-            $moduleId = array_column($modules, 'id');
-            $moduleType = array_column($modules, 'type');
-            $moduleInstance = array_column($modules, 'instance');
-            $moduleName = array_column($modules, 'name');
+        //Menú Principal
 
-            for ($i=0; $i<count($moduleId); $i++) {
-              $recursos .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-              $recursos .= html_writer::empty_tag('br');
-            }
-          }
-        }
-        html_writer::end_tag('div');
-        $this->content->items[] = $recursos;
+        $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
+
+          $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
+            $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'onclick'=>'toggleMenu()', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+          $menu .= html_writer::end_tag('div');
+
+          $menu .= html_writer::start_tag('div', array());
+            $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
+
+
+
+              $menu .= html_writer::start_tag('li', array('id'=>'actividades'));
+                $menu .= '<a id="menuActividades">Actividades</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+
+                  $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
+                  foreach($tiposActividades as $tipoActividad) {
+                    if ($tipoActividad == 'h5p') {
+                      //$sql = '';
+                    } else {
+                      if ($tipoActividad == 'forum') {
+                        $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+                        FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                        ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                        $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                        $moduleId = array_column($modules, 'id');
+                        $moduleType = array_column($modules, 'type');
+                        $moduleInstance = array_column($modules, 'instance');
+                        $moduleName = array_column($modules, 'name');
+                        for ($i=0; $i<count($moduleId); $i++) {
+                          if ($moduleName[$i] != 'Avisos') {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        }
+                      } else {
+                        $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+                        FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                        ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                        $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                        $moduleId = array_column($modules, 'id');
+                        $moduleType = array_column($modules, 'type');
+                        $moduleInstance = array_column($modules, 'instance');
+                        $moduleName = array_column($modules, 'name');
+
+                        for ($i=0; $i <count($moduleId); $i++) {
+                          $menu .= html_writer::start_tag('li');
+                          $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                          $menu .= html_writer::end_tag('li');
+                        }
+                      }
+                    }
+                  }
+
+                $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+
+
+
+              $menu .= html_writer::start_tag('li');
+                $menu .= '<a id="opcion-recursos">Recursos</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $tiposRecursos = array('book','files','folder','imscp','label', 'page','url'); 
+                  foreach($tiposRecursos as $tipoRecurso) {
+                    if ($tipoRecurso == 'files') {
+                      //$sql = '';
+                    }else {
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+
+                      for ($i=0; $i<count($moduleId); $i++) {
+                        $menu .= html_writer::start_tag('li');
+                        $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                        $menu .= html_writer::end_tag('li');
+                      }
+                    }
+                  }
+                $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+
+
+
+              $menu .= html_writer::start_tag('li', array());
+                $menu .= '<a id="menuMensaje">Mensaje al profesor</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                    $menu .= '<a>Escribe tu mensaje: </a>';
+                    $menu .= html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'class'=>'dropdown-content', 'id'=>'inputMensaje'));
+                    $menu .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'textfield', 'id'=>'textfield'));
+                    $menu .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
+                    $menu .= html_writer::end_tag('form');
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+
+
+
+              $menu .= html_writer::start_tag('li');
+                $menu .= '<a id="menuNotificaciones">Notificaciones</a>';
+              $menu .= html_writer::end_tag('li');
+
+
+
+              $menu .= html_writer::start_tag('li');
+                $menu .= '<a id="menuPreguntasFrecuentes">Preguntas frecuentes</a>';
+              $menu .= html_writer::end_tag('li');
+
+            $menu .= html_writer::end_tag('ul');
+          $menu .= html_writer::end_tag('div');
+        $menu .= html_writer::end_tag('div');
+        $this->content->items[] = $menu;
 
         return $this->content;
-    }
+      }
 
     function definition() {
       global $CFG;
