@@ -1,34 +1,64 @@
 #div-arrastrable {
     position: absolute;
-    /*cursor: move;*/
-    z-index: 1000; 
+    z-index: 1000;
+    
 }
 
 #imagen{
-    width: 100px; 
-    height: 100px;
-    cursor: move;
+    cursor: pointer;
+    width: auto; 
+    height: 120px;
 }
 
-.dropdown-content {
+#menu{
     display: none;
     position: absolute;
-    background-color: white;
-    min-width: 300px;
-    box-shadow: 0px 0px 8px 0px rgba(0,0,0,.1);
-    z-index: 1;
-    right: 100%;
-    top:-50%;
+    right: 105%;
+    top:-40%;
 }
 
-.opcion{
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
+.ul-tutorvirtual{
+    width: 200px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background-color: white;
+    box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    border-top: 1px solid rgba(0,0,0,.125);
+}
+
+.ul-tutorvirtual li{
+    position: relative;
+    text-align: center;
+    padding: 8px;
+    list-style-position: inside;
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
-.opcion:hover{
-    background-color: antiquewhite;
+.ul-tutorvirtual li a{
+    text-decoration: none;
+    color: black;
+}
+
+.dropdown{
+    position: absolute;
+    width: 100%;
+    flex-wrap: wrap;
+    visibility: hidden;
+    right: 100%;
+    top: 0;
+    z-index: -1;
+}
+
+.ul-tutorvirtual li:hover{
+    background-color: #C68D2A;
+}
+
+.ul-tutorvirtual li:hover > a {
+    color: white;
+}
+
+.ul-tutorvirtual li:hover .dropdown{
+    visibility: visible;
 }
