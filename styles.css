@@ -15,6 +15,17 @@
     top:-40%;
 }
 
+#textfield{
+    margin: 15px;
+    width: 300px;
+    height: 100px;
+    border-radius: 2%;
+}
+
+.ul-tutorvirtual #divMensaje{
+    width: 350px;
+}
+
 .ul-tutorvirtual{
     width: 200px;
     margin: 0;
@@ -24,6 +35,19 @@
     box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
     border-bottom: 1px solid rgba(0,0,0,.125);
     border-top: 1px solid rgba(0,0,0,.125);
+}
+
+#boton{
+    background-color: #0f6fc5;
+    padding: 5px 10px;
+    margin: 10px;
+    color: white;
+    border-radius: 8%;
+    transition: background .2s ease-in-out;
+}
+
+#boton:hover{
+    background-color: #0d5da8;
 }
 
 .ul-tutorvirtual li{
@@ -59,3 +83,4 @@
 .ul-tutorvirtual li:hover .dropdown{
     visibility: visible;
 }
+
