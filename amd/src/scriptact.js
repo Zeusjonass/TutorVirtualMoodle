@@ -1,11 +1,30 @@
-function toggleMenu() {
-  var menuBox = document.getElementById('menu');    
-  if(menuBox.style.display == "block") {
+window.onclick = function(event) {
+  var menuBox = document.getElementById('menu');  
+  var imagen = document.getElementById('imagen'); 
+  if (event.target != imagen) {
     menuBox.style.display = "none";
-    
   }
-  else {
-    menuBox.style.display = "block";
+  else{
+    if(menuBox.style.display == "block") {
+      menuBox.style.display = "none";
+    }
+    else {
+      ubicacion = imagen.getBoundingClientRect();
+      if(parseFloat(ubicacion.right) > parseFloat(window.innerWidth) / 2){
+        menuBox.style.left = "-190%"; 
+        subMenus = document.querySelectorAll('.dropdown');
+        subMenus.forEach(subMenu => {
+          subMenu.style.left = "-100%";
+        });
+      }
+      else{
+        menuBox.style.left = "105%"; 
+        subMenus = document.querySelectorAll('.dropdown');
+        subMenus.forEach(subMenu => {
+          subMenu.style.left = "100%";
+        });
+      }   
+      menuBox.style.display = "block";
+    }
   }
 }
-
