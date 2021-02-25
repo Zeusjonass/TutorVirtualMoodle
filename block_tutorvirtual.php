@@ -31,7 +31,7 @@
       //Menú Principal
       $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
-          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'onclick'=>'toggleMenu()', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
         $menu .= html_writer::end_tag('div');
         $menu .= html_writer::start_tag('div', array());
           $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
