@@ -1,6 +1,7 @@
 window.onclick = function(event) {
   var menuBox = document.getElementById('menu');  
   var imagen = document.getElementById('imagen'); 
+  var divMensaje = document.getElementById('divMensaje'); 
   if (event.target != imagen) {
     menuBox.style.display = "none";
   }
@@ -16,6 +17,7 @@ window.onclick = function(event) {
         subMenus.forEach(subMenu => {
           subMenu.style.left = "-100%";
         });
+        divMensaje.style.left = "-175%";
       }
       else{
         menuBox.style.left = "105%"; 
