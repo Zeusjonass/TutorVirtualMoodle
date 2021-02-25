@@ -35,9 +35,9 @@
         $menu .= html_writer::end_tag('div');
         $menu .= html_writer::start_tag('div', array());
           $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
-            $menu .= html_writer::start_tag('li', array('id'=>'actividades'));
 
-              //ACTIVIDADES
+            //ACTIVIDADEEEES
+            $menu .= html_writer::start_tag('li', array('id'=>'actividades', 'class'=>'menuPrincipal'));
               $menu .= '<a id="menuActividades">Actividades</a>';
               $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
                 $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
@@ -84,7 +84,7 @@
             $menu .= html_writer::end_tag('li');
 
             //RECURSOOOOOOOOOS
-            $menu .= html_writer::start_tag('li');
+            $menu .= html_writer::start_tag('li', array('class'=>'menuPrincipal'));
               $menu .= '<a id="opcion-recursos">Recursos</a>';
               $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
                 $tiposRecursos = array('book','files','folder','imscp','label', 'page','url'); 
@@ -112,18 +112,20 @@
             $menu .= html_writer::end_tag('li');
             
             //MENSAJE AL PROFESOR
-            $menu .= html_writer::start_tag('li', array());
+            $menu .= html_writer::start_tag('li', array('class'=>'menuPrincipal'));
               $menu .= '<a id="menuMensaje">Mensaje al profesor</a>';
-              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown', 'id'=>'divMensaje'));
                 $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>Escribe tu mensaje: </a>';
+                  $menu .= '<a id="leyendaMensaje">¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!</a>';
                   $menu .= html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'inputMensaje'));
-                    $menu .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'textfield', 'id'=>'textfield'));
-                    $menu .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar'));
+                    $menu .= html_writer::start_tag('textarea', array('name'=>'textfield', 'id'=>'textfield', 'class'=>'form-control'));
+                    $menu .= html_writer::end_tag('textarea');
+                    $menu .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar', 'id'=>'boton'));
                   $menu .= html_writer::end_tag('form');
                 $menu .= html_writer::end_tag('li');
               $menu .= html_writer::end_tag('ul');
             $menu .= html_writer::end_tag('li');
+            
             //tomar input del usuario para enviarlo al profesor
             if (isset($_POST['textfield'])) {
               $message_content = $_POST['textfield'];
@@ -132,13 +134,13 @@
             }
             
             //Preguntas Plataforma
-            $menu .= html_writer::start_tag('li');
+            $menu .= html_writer::start_tag('li', array('class'=>'menuPrincipal'));
               $menu .= '<a id="menuPreguntasFrecuentesPlataforma">Preguntas Frecuentes de la Pataforma</a>';
             $menu .= html_writer::end_tag('li');
 
 
             //Preguntas Curso
-            $menu .= html_writer::start_tag('li');
+            $menu .= html_writer::start_tag('li', array('class'=>'menuPrincipal'));
               $menu .= '<a id="menuPreguntasFrecuentesCurso">Preguntas Frecuentes del Curso</a>';
             $menu .= html_writer::end_tag('li');
       
@@ -180,7 +182,6 @@
         $teachers = $this->get_course_teachers($DB, $PAGE);
         foreach ($teachers as $teacher) {
           $this->send_message_to_course_teacher($USER, $teacher, $PAGE, $message_content);
-          $this->content->items[] = "Se ha enviado su mensaje";
         }
       }
 
@@ -269,15 +270,6 @@
           $this->content->items[] = $choicecourse;
       }
       $this->content->items[] = '<br>';
-
-      /*Encuesta predefinida
-      $survey = $DB->get_records('survey', array('course' => $courseid), '', 'name', 0, 0);
-      $choicecourse = array_column($choice, 'name');
-
-      foreach ($choicecourse as $choicecourse) {
-          $this->content->items[] = $choicecourse;
-      }
-      */
 
       //Examen
       $this->content->items[] = 'Examen:';
