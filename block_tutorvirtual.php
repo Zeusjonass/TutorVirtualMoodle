@@ -245,10 +245,11 @@ class block_tutorvirtual extends block_list {
         $formulario .= html_writer::div("Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.",  array('id' => 'desc2', 'class' => 'decs'));
         $formulario .= html_writer::empty_tag('br');
         $formulario .= html_writer::div("Pregunta:",  array('id' => 'labelPregunta', 'class' => 'label'));
-        $formulario .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'pregunta', 'id'=>'pregunta', 'required'=>'required', 'class'=>'inpurPregunta form-control'));
+        $formulario .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'pregunta', 'id'=>'pregunta', 'required'=>'required', 'class'=>'form-control'));
         $formulario .= html_writer::empty_tag('br');
         $formulario .= html_writer::div("Respuesta:",  array('id' => 'labelRespuesta', 'class' => 'label'));
-        $formulario .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'respuesta', 'id'=>'respuesta', 'required'=>'required', 'class'=>'inpurPregunta form-control'));
+        $formulario .= html_writer::start_tag('textarea', array('id'=>'respuesta', 'name'=>'respuesta', 'class'=>'form-control', 'required'=>'required',));
+        $formulario .= html_writer::end_tag('textarea');
         $formulario .= html_writer::empty_tag('br');
         $formulario .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Guardar', 'class'=>'boton'));
       $formulario .= html_writer::end_tag('form');
