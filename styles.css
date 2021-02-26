@@ -88,3 +88,8 @@
 .ul-tutorvirtual li:hover .dropdown{
     visibility: visible;
 }
+
+.scroll{
+    overflow-y: scroll;
+    max-height: 300px;
+}
