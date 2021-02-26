@@ -35,10 +35,10 @@ class block_tutorvirtual extends block_list {
         $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
 
 
-
+          // ACTIVIDADES
           $menu .= html_writer::start_tag('li', array('id'=>'actividades'));
             $menu .= '<a id="menuActividades">Actividades</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown', 'id'=>'listaActs'));
+            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll', 'id'=>'listaActs'));
 
               $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
               foreach($tiposActividades as $tipoActividad) {
@@ -179,10 +179,10 @@ class block_tutorvirtual extends block_list {
           $menu .= html_writer::end_tag('li');
 
 
-
+          // RECURSOS
           $menu .= html_writer::start_tag('li');
-            $menu .= '<a id="opcion-recursos">Biblioteca</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+            $menu .= '<a id="opcion-recursos">Recursos</a>';
+            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll'));
               $tiposRecursos = array('book','files','folder','imscp','label', 'page','url'); 
               foreach($tiposRecursos as $tipoRecurso) {
                 if ($tipoRecurso == 'files') {
@@ -208,7 +208,7 @@ class block_tutorvirtual extends block_list {
           $menu .= html_writer::end_tag('li');
           
 
-
+          //MENSAJE
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>Mensaje al profesor</a>';
           $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown', 'id'=>'divMensaje'));
@@ -218,18 +218,21 @@ class block_tutorvirtual extends block_list {
                 $menu .= html_writer::start_tag('textarea', array('name'=>'textfield', 'id'=>'textfield', 'class'=>'form-control'));
                 $menu .= html_writer::end_tag('textarea');
                 $menu .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Enviar', 'id'=>'boton'));
-              $menu .= html_writer::end_tag('form');
-            $menu .= html_writer::end_tag('li');
-          $menu .= html_writer::end_tag('ul');
-        $menu .= html_writer::end_tag('li');
-   
+                $menu .= html_writer::end_tag('form');
+              $menu .= html_writer::end_tag('li');
+            $menu .= html_writer::end_tag('ul');
+          $menu .= html_writer::end_tag('li');
+          
+          // PREGUNTAS PLATAFORMA
           $menu .= html_writer::start_tag('li');
             $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
           $menu .= html_writer::end_tag('li');
 
+          //PREGUNTAS CURSO
           $menu .= html_writer::start_tag('li');
             $menu .= '<a id="menuPreguntasFrecuentes">Preguntas Frecuentes del Curso</a>';
           $menu .= html_writer::end_tag('li');
+    
     
         $menu .= html_writer::end_tag('ul');
       $menu .= html_writer::end_tag('div');
