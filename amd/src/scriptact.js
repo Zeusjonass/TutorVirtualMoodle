@@ -2,6 +2,7 @@ window.onclick = function(event) {
   var menuBox = document.getElementById('menu');  
   var imagen = document.getElementById('imagen'); 
   var divMensaje = document.getElementById('divMensaje'); 
+  var listaActs = document.getElementById('listaActs'); 
   if (event.target != imagen) {
     menuBox.style.display = "none";
   }
@@ -18,6 +19,7 @@ window.onclick = function(event) {
           subMenu.style.left = "-100%";
         });
         divMensaje.style.left = "-175%";
+        listaActs.style.left = "-175%";
       }
       else{
         menuBox.style.left = "105%"; 
