@@ -42,7 +42,7 @@
 }
 
 
-#boton{
+.boton{
     background-color: #0f6fc5;
     padding: 5px 10px;
     margin: 10px;
@@ -51,7 +51,7 @@
     transition: background .2s ease-in-out;
 }
 
-#boton:hover{
+.boton:hover{
     background-color: #0d5da8;
 }
 
@@ -92,4 +92,18 @@
 .scroll{
     overflow-y: scroll;
     max-height: 300px;
+}
+
+#formulario{
+    text-align: center;
+}
+
+#title{
+    text-align: center;
+    font-size: large;
+    font-weight: bold;
+}
+
+.desc{
+    text-align: center;
 }
