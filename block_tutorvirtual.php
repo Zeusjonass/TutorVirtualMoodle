@@ -27,7 +27,8 @@ class block_tutorvirtual extends block_list {
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
     $coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
+    if (true) {
+    //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
@@ -219,6 +220,72 @@ class block_tutorvirtual extends block_list {
             // PREGUNTAS PLATAFORMA
             $menu .= html_writer::start_tag('li');
               $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>Acceso y Navegación</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Por qué no puedo acceder?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo gano acceso a un curso</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo salto entre mis cursos?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo regreso a la página principal del curso?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo puedo encontrar el curso X?</a>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>Contenido de Curso</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿A dónde se han ido todos los temas/semanas?</a>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>Tareas y Calificaciones</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Por qué no hay botón de "subir" (o "grabar")?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo puedo ver los comentarios del profesor a mis tareas recientes?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Por qué mi promedio del curso es tan baja?</a>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>Exámenes</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Qué botón pulso cuando he terminado el examen?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Porqué estoy obteniendo cero de calificación en mi examen?</a>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>Correos y Foros</a>';
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Por qué no tengo ningún correo y otros usuarios sí?</a>';
+                  $menu .= html_writer::end_tag('li');
+                  $menu .= html_writer::start_tag('li');
+                  $menu .= '<a>¿Cómo puedo dejar de recibir todos estos correos?</a>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
             $menu .= html_writer::end_tag('li');
 
             //PREGUNTAS CURSO
