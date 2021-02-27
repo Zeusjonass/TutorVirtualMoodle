@@ -26,8 +26,7 @@ class block_tutorvirtual extends block_list {
 
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
-    $coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    if (true) {
+    //$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
@@ -38,9 +37,9 @@ class block_tutorvirtual extends block_list {
           $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
 
             // ACTIVIDADES
-            $menu .= html_writer::start_tag('li', array('id'=>'actividades'));
-              $menu .= '<a id="menuActividades">Actividades</a>';
-              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll', 'id'=>'listaActs'));
+            $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Actividades</a>';
+              $menu .= html_writer::start_tag('ul', array('id'=>'listaActs', 'class'=>'ul-tutorvirtual dropdown scroll'));
                 $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
                 foreach($tiposActividades as $tipoActividad) {
                   if ($tipoActividad == 'h5p') {
@@ -176,30 +175,151 @@ class block_tutorvirtual extends block_list {
 
             // RECURSOS
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a id="opcion-recursos">Recursos</a>';
-              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll'));
-                $tiposRecursos = array('book','files','folder','imscp','label', 'page','url'); 
-                foreach($tiposRecursos as $tipoRecurso) {
-                  if ($tipoRecurso == 'files') {
-                    //$sql = '';
-                  }else {
+              $menu .= '<a>Recursos</a>';
+              $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown'));
+                
+                $tiposRecursos = array('book','folder','files','page','url','imscp','label'); 
+
+                foreach($tiposRecursos as $tipoRecurso){
+                  if($tipoRecurso == 'book'){
                     $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-                    FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
-                    ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
                     $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
                     $moduleId = array_column($modules, 'id');
                     $moduleType = array_column($modules, 'type');
                     $moduleInstance = array_column($modules, 'instance');
                     $moduleName = array_column($modules, 'name');
-
-                    for ($i=0; $i<count($moduleId); $i++) {
+                    if(count($moduleId) > 0){
                       $menu .= html_writer::start_tag('li');
-                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                        $menu .= '<a>Libros</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
+                      $menu .= html_writer::end_tag('li');
+                    }
+                  }
+
+                  if($tipoRecurso == 'folder'){
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    if(count($moduleId) > 0){
+                      $menu .= html_writer::start_tag('li');
+                        $menu .= '<a>Carpetas</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
+                      $menu .= html_writer::end_tag('li');
+                    }
+                  }
+
+                  if($tipoRecurso == 'page'){
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    if(count($moduleId) > 0){
+                      $menu .= html_writer::start_tag('li');
+                        $menu .= '<a>Páginas</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
+                      $menu .= html_writer::end_tag('li');
+                    }
+                  }
+
+                  if($tipoRecurso == 'url'){
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    if(count($moduleId) > 0){
+                      $menu .= html_writer::start_tag('li');
+                        $menu .= '<a>URLs</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
+                      $menu .= html_writer::end_tag('li');
+                    }
+                  }
+
+                  if($tipoRecurso == 'imscp'){
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    if(count($moduleId) > 0){
+                      $menu .= html_writer::start_tag('li');
+                        $menu .= '<a>IMSCP</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
+                      $menu .= html_writer::end_tag('li');
+                    }
+                  }
+
+                  if($tipoRecurso == 'label'){
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    if(count($moduleId) > 0){
+                      $menu .= html_writer::start_tag('li');
+                        $menu .= '<a>Etiquetas</a>';
+                        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                          for ($i=0; $i<count($moduleId); $i++) {
+                            $menu .= html_writer::start_tag('li');
+                            $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                            $menu .= html_writer::end_tag('li');
+                          }
+                        $menu .= html_writer::end_tag('ul');
                       $menu .= html_writer::end_tag('li');
                     }
                   }
                 }
-              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('ul'); 
             $menu .= html_writer::end_tag('li');
 
             //MENSAJE
@@ -219,74 +339,74 @@ class block_tutorvirtual extends block_list {
             
             // PREGUNTAS PLATAFORMA
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
+            $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
+            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+              $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Acceso y Navegación</a>';
               $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
                 $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Acceso y Navegación</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Por qué no puedo acceder?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo gano acceso a un curso</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo salto entre mis cursos?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo regreso a la página principal del curso?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo puedo encontrar el curso X?</a>';
-                  $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                $menu .= '<a>¿Por qué no puedo acceder?</a>';
                 $menu .= html_writer::end_tag('li');
                 $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Contenido de Curso</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿A dónde se han ido todos los temas/semanas?</a>';
-                  $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                $menu .= '<a>¿Cómo gano acceso a un curso</a>';
                 $menu .= html_writer::end_tag('li');
                 $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Tareas y Calificaciones</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Por qué no hay botón de "subir" (o "grabar")?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo puedo ver los comentarios del profesor a mis tareas recientes?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Por qué mi promedio del curso es tan baja?</a>';
-                  $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                $menu .= '<a>¿Cómo salto entre mis cursos?</a>';
                 $menu .= html_writer::end_tag('li');
                 $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Exámenes</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Qué botón pulso cuando he terminado el examen?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Porqué estoy obteniendo cero de calificación en mi examen?</a>';
-                  $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                $menu .= '<a>¿Cómo regreso a la página principal del curso?</a>';
                 $menu .= html_writer::end_tag('li');
                 $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Correos y Foros</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Por qué no tengo ningún correo y otros usuarios sí?</a>';
-                  $menu .= html_writer::end_tag('li');
-                  $menu .= html_writer::start_tag('li');
-                  $menu .= '<a>¿Cómo puedo dejar de recibir todos estos correos?</a>';
-                  $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                $menu .= '<a>¿Cómo puedo encontrar el curso X?</a>';
                 $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
-            $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Contenido de Curso</a>';
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿A dónde se han ido todos los temas/semanas?</a>';
+                $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Tareas y Calificaciones</a>';
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Por qué no hay botón de "subir" (o "grabar")?</a>';
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Cómo puedo ver los comentarios del profesor a mis tareas recientes?</a>';
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Por qué mi promedio del curso es tan baja?</a>';
+                $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Exámenes</a>';
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Qué botón pulso cuando he terminado el examen?</a>';
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Porqué estoy obteniendo cero de calificación en mi examen?</a>';
+                $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::start_tag('li');
+              $menu .= '<a>Correos y Foros</a>';
+              $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Por qué no tengo ningún correo y otros usuarios sí?</a>';
+                $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('li');
+                $menu .= '<a>¿Cómo puedo dejar de recibir todos estos correos?</a>';
+                $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+              $menu .= html_writer::end_tag('ul');
+          $menu .= html_writer::end_tag('li');
 
             //PREGUNTAS CURSO
             $menu .= html_writer::start_tag('li');
@@ -304,7 +424,7 @@ class block_tutorvirtual extends block_list {
         $this->enviarMensaje($message_content);
         return;
       }
-    }
+    /*}
     else{
       $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
         $formulario .= html_writer::div("Hola! Soy el tutor virtual",  array('id' => 'title'));
@@ -321,7 +441,7 @@ class block_tutorvirtual extends block_list {
         $formulario .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Guardar', 'class'=>'boton'));
       $formulario .= html_writer::end_tag('form');
       $this->content->items[] = $formulario;
-    }
+    }*/
     return $this->content;
   }
 
