@@ -3,18 +3,16 @@
     z-index: 1000;  
 }
 
+
+/*Huella*/
 #imagen{
     cursor: pointer;
     width: auto; 
     height: 120px;
 }
 
-#menu{
-    display: none;
-    position: absolute;
-    top:-40%;
-}
 
+/*Listas general*/
 .ul-tutorvirtual{
     width: 200px;
     margin: 0;
@@ -26,35 +24,6 @@
     border-top: 1px solid rgba(0,0,0,.125);
 }
 
-#textfield{
-    margin: 15px;
-    width: 300px;
-    height: 100px;
-    border-radius: 2%;
-}
-
-.ul-tutorvirtual #divMensaje{
-    width: 350px;
-}
-
-.ul-tutorvirtual #listaActs{
-    width: 350px;
-}
-
-
-.boton{
-    background-color: #0f6fc5;
-    padding: 5px 10px;
-    margin: 10px;
-    color: white;
-    border-radius: 8%;
-    transition: background .2s ease-in-out;
-}
-
-.boton:hover{
-    background-color: #0d5da8;
-}
-
 .ul-tutorvirtual li{
     position: relative;
     text-align: center;
@@ -63,35 +32,45 @@
     border-bottom: 1px solid rgba(0,0,0,.125);
 }
 
-.ul-tutorvirtual li a{
+.ul-tutorvirtual li {
     text-decoration: none;
-    color: black;
+    color: #333;
 }
 
-.dropdown{
+
+/*Listas*/
+#menu{
+    display: none;
+    position: absolute;
+    top:-40%;
+}
+
+#listaActs{
+    width: 350px;
+}
+
+
+/*Menus desplegables*/
+.dropdown, .dropdown2{
     position: absolute;
     width: 100%;
     flex-wrap: wrap;
     visibility: hidden;
     top: 0;
-    z-index: -1;
 }
 
-.ul-tutorvirtual li:hover{
-    background-color: #C68D2A;
+.dropdown{
+    z-index: 2;
 }
 
-.ul-tutorvirtual li:hover > a {
-    color: white;
+.dropdown2{
+    z-index: 3;
 }
 
-.ul-tutorvirtual li:hover .dropdown{
-    visibility: visible;
-}
 
-.scroll{
-    overflow-y: scroll;
-    max-height: 300px;
+/*Mensaje*/
+#divMensaje{
+    width: 350px;
 }
 
 #formulario{
@@ -104,6 +83,69 @@
     font-weight: bold;
 }
 
+#textfield{
+    margin: 15px;
+    width: 300px;
+    height: 100px;
+    border-radius: 2%;
+}
+
 .desc{
     text-align: center;
+}
+
+.boton{
+    background-color: #0f6fc5;
+    padding: 5px 10px;
+    margin: 10px;
+    color: white;
+    border-radius: 8%;
+    transition: background .2s ease-in-out;
+}
+
+
+/*Cursores*/
+#menu > li > a{
+    cursor: default;
+}
+
+#listaRecursos > li > a{
+    cursor: default;
+}
+
+#divMensaje > li > a{
+    cursor: default;
+}
+
+/*Hover*/
+.ul-tutorvirtual li:hover{
+    background-color: #C68D2A;
+}
+
+.ul-tutorvirtual li:hover > a {
+    color: white;
+}
+
+.ul-tutorvirtual li:hover > p {
+    color: white;
+}
+
+.ul-tutorvirtual li:hover .dropdown{
+    visibility: visible;
+}
+
+.dropdown li:hover .dropdown2{
+    visibility: visible;
+}
+
+.boton:hover{
+    background-color: #0d5da8;
+}
+
+
+/*Scroll*/
+
+.scroll{
+    overflow-y: scroll;
+    max-height: 300px;
 }
