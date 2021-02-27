@@ -409,9 +409,30 @@ class block_tutorvirtual extends block_list {
           $menu .= html_writer::end_tag('li');
 
             //PREGUNTAS CURSO
-            $menu .= html_writer::start_tag('li');
+            $courseid = $PAGE->course->id;
+            $sql = 'SELECT section,name FROM mdl_course_sections WHERE course = '. $courseid .' AND section > 0';
+            $sections = $DB->get_records_sql($sql, array('section', 'name'), 0, 0);
+            $section_ids = array_column($sections, 'section');
+            $section_names = array_column($sections, 'name');
+        
+            for($i=1; $i<count($section_names) ;$i++) {
+              if(is_null($section_names[$i])) {
+                $section_names[$i] = 'Tema ' . $section_ids[$i];
+              }
+            }
+        
+            if(count($section_names) > 0){
+              $menu .= html_writer::start_tag('li');
               $menu .= '<a id="menuPreguntasFrecuentes">Preguntas Frecuentes del Curso</a>';
-            $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll'));
+                  for ($i=0; $i<count($section_names); $i++) {
+                    $menu .= html_writer::start_tag('li');
+                    $menu .= html_writer::link($CFG->wwwroot . "/course/view.php?id=".$courseid."#section-".$section_ids[$i], $section_names[$i]);
+                    $menu .= html_writer::end_tag('li');
+                  }
+                $menu .= html_writer::end_tag('ul');
+              $menu .= html_writer::end_tag('li');
+            }
       
           $menu .= html_writer::end_tag('ul');
         $menu .= html_writer::end_tag('div');
