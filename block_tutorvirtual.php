@@ -1,7 +1,6 @@
 <?php
 
 defined('MOODLE_INTERNAL') || die();
-require_once('../config.php');
 require_once("$CFG->libdir/formslib.php");
 class block_tutorvirtual extends block_list {
 
@@ -415,7 +414,7 @@ class block_tutorvirtual extends block_list {
             $section_ids = array_column($sections, 'section');
             $section_names = array_column($sections, 'name');
         
-            for($i=1; $i<count($section_names) ;$i++) {
+            for($i=0; $i<count($section_names) ;$i++) {
               if(is_null($section_names[$i])) {
                 $section_names[$i] = 'Tema ' . $section_ids[$i];
               }
