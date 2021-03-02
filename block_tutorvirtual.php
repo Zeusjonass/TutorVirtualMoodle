@@ -445,7 +445,7 @@ class block_tutorvirtual extends block_list {
         $this->enviarMensaje($message_content);
         return;
       }
-    
+    }
     else{
       $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
         $formulario .= html_writer::div("Hola! Soy el tutor virtual",  array('id' => 'title'));
