@@ -484,10 +484,34 @@ class block_tutorvirtual extends block_list {
   }
 
   function formularioProfesor(){
+    global $PAGE, $DB, $CFG;
+    $courseid = $PAGE->course->id;
+    $sql = 'SELECT section,name FROM mdl_course_sections WHERE course = '. $courseid .' AND section > 0';
+    $sections = $DB->get_records_sql($sql, array('section', 'name'), 0, 0);
+    $section_ids = array_column($sections, 'section');
+    $section_names = array_column($sections, 'name');
+
+    for($i=0; $i<count($section_names) ;$i++) {
+      if(is_null($section_names[$i])) {
+        $section_names[$i] = 'Tema ' . $section_ids[$i];
+      }
+    }
+
     $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
       $formulario .= html_writer::div("Hola! Soy el tutor virtual",  array('id' => 'title'));
       $formulario .= html_writer::div("Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.",  array('id' => 'desc1', 'class' => 'desc'));
       $formulario .= html_writer::div("Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.",  array('id' => 'desc2', 'class' => 'decs'));
+      $formulario .= html_writer::empty_tag('br');
+      if(count($section_ids)>1) {
+        $formulario .= html_writer::div("Tema de la pregunta:", array('id'=>'labelTema','class'=>'label'));
+        $formulario .= html_writer::start_tag('select', array('id'=>'temas','name'=>'temas','class'=>'form-select form-control'));
+        for($i=0;$i<count($section_ids);$i++) {
+          $formulario .= html_writer::start_tag('option',array('value'=>$section_ids[$i]));
+          $formulario .= $section_names[$i];
+          $formulario .= html_writer::end_tag('option');
+        }
+        $formulario .= html_writer::end_tag('select');
+      }
       $formulario .= html_writer::empty_tag('br');
       $formulario .= html_writer::div("Pregunta:",  array('id' => 'labelPregunta', 'class' => 'label'));
       $formulario .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'pregunta', 'id'=>'pregunta', 'required'=>'required', 'class'=>'form-control'));
