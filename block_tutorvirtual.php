@@ -26,6 +26,7 @@ class block_tutorvirtual extends block_list {
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
     //$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
+    if(true){
     //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu .= html_writer::start_tag('div', array('id'=>'div-arrastrable'));
@@ -444,7 +445,7 @@ class block_tutorvirtual extends block_list {
         $this->enviarMensaje($message_content);
         return;
       }
-    /*}
+    
     else{
       $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
         $formulario .= html_writer::div("Hola! Soy el tutor virtual",  array('id' => 'title'));
@@ -461,7 +462,7 @@ class block_tutorvirtual extends block_list {
         $formulario .= html_writer::empty_tag('input', array('type'=>'submit', 'name'=>'button', 'value'=>'Guardar', 'class'=>'boton'));
       $formulario .= html_writer::end_tag('form');
       $this->content->items[] = $formulario;
-    }*/
+    }
     return $this->content;
   }
 
