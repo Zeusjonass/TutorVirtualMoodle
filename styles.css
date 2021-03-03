@@ -105,15 +105,8 @@
 
 
 /*Cursores*/
-#menu > li > a{
-    cursor: default;
-}
 
-#listaRecursos > li > a{
-    cursor: default;
-}
-
-#divMensaje > li > a{
+.cursor-default > li > a{
     cursor: default;
 }
 
