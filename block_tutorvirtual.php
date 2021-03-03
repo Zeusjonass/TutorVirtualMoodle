@@ -74,141 +74,207 @@ class block_tutorvirtual extends block_list {
 
   function listaActividades(){
     global $DB, $CFG;
-    $menu = html_writer::start_tag('li');
-      $menu .= '<a>Actividades</a>';
-      $menu .= html_writer::start_tag('ul', array('id'=>'listaActs', 'class'=>'ul-tutorvirtual dropdown scroll'));
-        $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
-        foreach($tiposActividades as $tipoActividad) {
-          if ($tipoActividad == 'h5p') {
-            //$sql = '';
-          } else {
-            if ($tipoActividad == 'forum') {
-              $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-              ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-              $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-              $moduleId = array_column($modules, 'id');
-              $moduleType = array_column($modules, 'type');
-              $moduleInstance = array_column($modules, 'instance');
-              $moduleName = array_column($modules, 'name');
-              for ($i=0; $i<count($moduleId); $i++) {
-                if ($moduleName[$i] != 'Avisos') {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $menu .= html_writer::end_tag('li');
-                }
-              }
-            } else if($tipoActividad == 'assign'){     
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                $moduleDuedate = array_column($modules, 'duedate');
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $fechaEntrega = getdate($moduleDuedate[$i]);
-                  $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $fechaEntrega['minutes'] . '</p>';
-                  $menu .= html_writer::end_tag('li');
-                }
-              }
-              else if($tipoActividad == 'quiz'){
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeclose as timeclose
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                $moduleTimeclose = array_column($modules, 'timeclose');
+    $timedActivities = array();
+    $untimedActivities = array();
+    $menu = html_writer::start_tag('li', array('id'=>'actividades'));
+            $menu .= '<a id="menuActividades">Actividades</a>';
+            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown scroll', 'id'=>'listaActs'));
 
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $fechaEntrega = getdate($moduleTimeclose[$i]);
-                  $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $fechaEntrega['minutes'] . '</p>';
-                  $menu .= html_writer::end_tag('li');
-                }
-              }
-              else if($tipoActividad == 'chat'){
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.chattime as chattime
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                $moduleChattime = array_column($modules, 'chattime');
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $fechaEntrega = getdate($moduleChattime[$i]);
-                  $menu .= '<p>Fecha de la sesión: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $fechaEntrega['minutes'] . '</p>';
-                  $menu .= html_writer::end_tag('li');
-                }
-              }
-              else if($tipoActividad == 'workshop'){
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.submissionend as submissionend
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                $moduleSubmissionend = array_column($modules, 'submissionend');
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $fechaEntrega = getdate($moduleSubmissionend[$i]);
-                  $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . '</p>';
-                  $menu .= html_writer::end_tag('li');
-                }
-              }
-              else if($tipoActividad == 'data'){
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeavailableto as timeavailableto
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                $moduleTimeavailableto = array_column($modules, 'timeavailableto');
+              $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
+              foreach($tiposActividades as $tipoActividad) {
+                if ($tipoActividad == 'h5p') {
+                  //$sql = '';
+                } else {
+                  if ($tipoActividad == 'forum') {
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+                    FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                    ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                    $moduleId = array_column($modules, 'id');
+                    $moduleType = array_column($modules, 'type');
+                    $moduleInstance = array_column($modules, 'instance');
+                    $moduleName = array_column($modules, 'name');
+                    for ($i=0; $i<count($moduleId); $i++) {
+                      if ($moduleName[$i] != 'Avisos') {
+                        $activity = array();
+                        $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                        $activity['nombre'] = $moduleName[$i];
+                        array_push($untimedActivities, $activity);
+                      }
+                    }
+                  } else if($tipoActividad == 'assign'){     
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleDuedate = array_column($modules, 'duedate');
 
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $fechaEntrega = getdate($moduleTimeavailableto[$i]);
-                  $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $fechaEntrega['minutes'] . '</p>';
-                  $menu .= html_writer::end_tag('li');
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if($moduleDuedate[$i] == 0){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          array_push($untimedActivities, $activity);
+                        }
+                        else if($moduleDuedate[$i] > time()){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          $activity['fecha'] = $moduleDuedate[$i];
+                          array_push($timedActivities, $activity);
+                        }
+                      }
+                    }
+                    else if($tipoActividad == 'quiz'){
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeclose as timeclose
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleTimeclose = array_column($modules, 'timeclose');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if($moduleTimeclose[$i] == 0){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          array_push($untimedActivities, $activity);
+                        }
+                        else if($moduleTimeclose[$i] > time()){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          $activity['fecha'] = $moduleTimeclose[$i];
+                          array_push($timedActivities, $activity);
+                        }
+                      }
+                    }
+                    else if($tipoActividad == 'chat'){
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.chattime as chattime
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleChattime = array_column($modules, 'chattime');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if($moduleChattime[$i] == 0){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          array_push($untimedActivities, $activity);
+                        }
+                        else if($moduleChattime[$i] > time()){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          $activity['fecha'] = $moduleChattime[$i];
+                          array_push($timedActivities, $activity);
+                        }
+                      }
+                    }
+                    else if($tipoActividad == 'workshop'){
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.submissionend as submissionend
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleSubmissionend = array_column($modules, 'submissionend');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if($moduleSubmissionend[$i] == 0 || $moduleSubmissionend[$i] == 1616706660){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          array_push($untimedActivities, $activity);
+                        }
+                        else if($moduleSubmissionend[$i] > time()){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          $activity['fecha'] = $moduleSubmissionend[$i];
+                          array_push($timedActivities, $activity);
+                        }
+                      }
+                    }
+                    else if($tipoActividad == 'data'){
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeavailableto as timeavailableto
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleTimeavailableto = array_column($modules, 'timeavailableto');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if($moduleTimeavailableto[$i] == 0){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          array_push($untimedActivities, $activity);
+                        }
+                        else if($moduleTimeavailableto[$i] > time()){
+                          $activity = array();
+                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                          $activity['nombre'] = $moduleName[$i];
+                          $activity['fecha'] = $moduleTimeavailableto[$i];
+                          array_push($timedActivities, $activity);
+                        }
+                      }
+                    }
+                    else{
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        $activity = array();
+                        $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                        $activity['nombre'] = $moduleName[$i];
+                        array_push($untimedActivities, $activity);
+                      }
+                    }
                 }
               }
-              else{
-                $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-                FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                $moduleId = array_column($modules, 'id');
-                $moduleType = array_column($modules, 'type');
-                $moduleInstance = array_column($modules, 'instance');
-                $moduleName = array_column($modules, 'name');
-                for ($i=0; $i <count($moduleId); $i++) {
-                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                  $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                  $menu .= html_writer::end_tag('li');
-                }
+
+              $timedActivitesSorted = $this->bubble_sort($timedActivities);
+              
+              for($i=0; $i<count($timedActivitesSorted); $i++){
+                $fechaEntrega = getdate($timedActivitesSorted[$i]['fecha']);
+                $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
+                $menu .= html_writer::link($timedActivitesSorted[$i]['link'], $timedActivitesSorted[$i]['nombre']);
+                $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $this->add_minute_digits($fechaEntrega['minutes']) . '</p>';
+                $menu .= html_writer::end_tag('li');
               }
-          }
-        }
-      $menu .= html_writer::end_tag('ul');
-    $menu .= html_writer::end_tag('li');
+
+              for($i=0; $i<count($untimedActivities); $i++){
+                $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
+                $menu .= html_writer::link($untimedActivities[$i]['link'], $untimedActivities[$i]['nombre']);
+                $menu .= html_writer::end_tag('li');
+              }
+
+            $menu .= html_writer::end_tag('ul');
+          $menu .= html_writer::end_tag('li');
     return $menu;
   }
 
@@ -585,6 +651,33 @@ class block_tutorvirtual extends block_list {
     $str_result = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     // Shuffle the $str_result and returns substring of specified length
     return substr(str_shuffle($str_result),0, $length_of_string);
+  }
+  
+  public function add_minute_digits($minutes){
+    $finalMinutes = "";
+    if($minutes < 10){
+      $finalMinutes = "0" . $minutes;
+      return $finalMinutes;
+    }else{
+      $finalMinutes .= $minutes;
+      return $finalMinutes;
+    }
+  }
+  
+  function bubble_sort($timedActivities){
+    $timedActivities = $timedActivities;
+    $size = count($timedActivities) - 1;
+    for($i=0; $i<$size; $i++){
+      for ($j=0; $j<$size-$i; $j++) {
+        $k = $j+1;
+        if ($timedActivities[$k]['fecha'] < $timedActivities[$j]['fecha']) {
+            // Swap elements at indices: $j, $k
+            list($timedActivities[$j]['fecha'], $timedActivities[$k]['fecha']) = array($timedActivities[$k]['fecha'], $timedActivities[$j]['fecha']);
+        }
+      }
+
+      return $timedActivities;
+    }
   }
 }
 ?>
