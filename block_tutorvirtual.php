@@ -664,20 +664,26 @@ class block_tutorvirtual extends block_list {
     }
   }
   
-  function bubble_sort($timedActivities){
+   function bubble_sort($timedActivities){
     $timedActivities = $timedActivities;
-    $size = count($timedActivities) - 1;
-    for($i=0; $i<$size; $i++){
-      for ($j=0; $j<$size-$i; $j++) {
-        $k = $j+1;
-        if ($timedActivities[$k]['fecha'] < $timedActivities[$j]['fecha']) {
+    if(count($timedActivities) > 1){
+      $size = count($timedActivities) - 1;
+      for($i=0; $i<$size; $i++){
+        for ($j=0; $j<$size-$i; $j++) {
+          $k = $j+1;
+          if ($timedActivities[$k]['fecha'] < $timedActivities[$j]['fecha']) {
             // Swap elements at indices: $j, $k
             list($timedActivities[$j]['fecha'], $timedActivities[$k]['fecha']) = array($timedActivities[$k]['fecha'], $timedActivities[$j]['fecha']);
+          }
         }
-      }
 
+        return $timedActivities;
+      }
+    } else{
       return $timedActivities;
     }
+    
   }
+  
 }
 ?>
