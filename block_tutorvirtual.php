@@ -34,7 +34,7 @@ class block_tutorvirtual extends block_list {
           $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'draggable'=>'true', 'clickable'=>'true', 'onclick'=>'toggleMenu()', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
         $menu .= html_writer::end_tag('div');
         $menu .= html_writer::start_tag('div', array());
-          $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual'));
+          $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual cursor-default'));
 
             // Agregamos la sección de Actividades Pendientes
             $menu .= $this->listaActividades();
@@ -216,7 +216,7 @@ class block_tutorvirtual extends block_list {
     global $DB, $CFG;
     $menu = html_writer::start_tag('li');
       $menu .= '<a>Recursos</a>';
-      $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown'));
+      $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown cursor-default'));
         
         $tiposRecursos = array('book','folder','files','page','url','imscp','label'); 
 
@@ -367,7 +367,7 @@ class block_tutorvirtual extends block_list {
   function mensajeAlProfesor(){
     $menu = html_writer::start_tag('li');
       $menu .= '<a>Mensaje al profesor</a>';
-      $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown', 'id'=>'divMensaje'));
+      $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown cursor-default', 'id'=>'divMensaje'));
         $menu .= html_writer::start_tag('li');
           $menu .= '<a id="leyendaMensaje">¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!</a>';
           $menu .= html_writer::start_tag('form', array('method'=>'post', 'action'=>''));
@@ -384,10 +384,10 @@ class block_tutorvirtual extends block_list {
   function preguntasPlataforma(){
     $menu = html_writer::start_tag('li');
       $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
-      $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown'));
+      $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown cursor-default'));
         $menu .= html_writer::start_tag('li');
         $menu .= '<a>Acceso y Navegación</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2'));
+        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>¿Por qué no puedo acceder?</a>';
           $menu .= html_writer::end_tag('li');
@@ -407,7 +407,7 @@ class block_tutorvirtual extends block_list {
         $menu .= html_writer::end_tag('li');
         $menu .= html_writer::start_tag('li');
         $menu .= '<a>Contenido de Curso</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2'));
+        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>¿A dónde se han ido todos los temas/semanas?</a>';
           $menu .= html_writer::end_tag('li');
@@ -415,7 +415,7 @@ class block_tutorvirtual extends block_list {
         $menu .= html_writer::end_tag('li');
         $menu .= html_writer::start_tag('li');
         $menu .= '<a>Tareas y Calificaciones</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2'));
+        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>¿Por qué no hay botón de "subir" (o "grabar")?</a>';
           $menu .= html_writer::end_tag('li');
@@ -429,7 +429,7 @@ class block_tutorvirtual extends block_list {
         $menu .= html_writer::end_tag('li');
         $menu .= html_writer::start_tag('li');
         $menu .= '<a>Exámenes</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2'));
+        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>¿Qué botón pulso cuando he terminado el examen?</a>';
           $menu .= html_writer::end_tag('li');
@@ -440,7 +440,7 @@ class block_tutorvirtual extends block_list {
         $menu .= html_writer::end_tag('li');
         $menu .= html_writer::start_tag('li');
         $menu .= '<a>Correos y Foros</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2'));
+        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
           $menu .= html_writer::start_tag('li');
           $menu .= '<a>¿Por qué no tengo ningún correo y otros usuarios sí?</a>';
           $menu .= html_writer::end_tag('li');
