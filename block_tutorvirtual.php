@@ -67,13 +67,36 @@ class block_tutorvirtual extends block_list {
     else{
       $formulario = $this->formularioProfesor();
       $this->content->items[] = $formulario;
+      //Enviamos la pregunta a la base de datos
+      if (isset($_POST['pregunta'])) {
+        $unidad = $_POST['unidad'];
+        $pregunta = $_POST['pregunta'];
+        $respuesta = $_POST['respuesta'];
+        $this->guardarPregunta($unidad, $pregunta, $respuesta);
+        echo '<script type="text/javascript">'
+          , 'alert("Muchas gracias por registrar su pregunta!");'
+          , '</script>'
+        ;
+      }
     }
 
     return $this->content;
   }
+  
+  function guardarPregunta($unidad, $pregunta, $respuesta){
+    global $DB, $CFG, $USER, $PAGE;
+    $dataObj = new stdClass();
+    $dataObj->unit = $unidad;
+    $dataObj->question = $pregunta;
+    $dataObj->answer = $respuesta;
+    $dataObj->idcourse = $PAGE->course->id;
+    $dataObj->profesorname = $USER->username;
+    $DB->insert_record('course_question', $dataObj, true, false);
+  }
 
   function listaActividades(){
-    global $DB, $CFG;
+    global $DB, $CFG, $PAGE;
+    $idCourse = $PAGE->course->id;
     $timedActivities = array();
     $untimedActivities = array();
     $menu = html_writer::start_tag('li', array('id'=>'actividades'));
@@ -86,9 +109,12 @@ class block_tutorvirtual extends block_list {
                   //$sql = '';
                 } else {
                   if ($tipoActividad == 'forum') {
-                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-                    FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                    ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS module, 
+                    mdl_coursemodules.instance, mdl_'.$tipoActividad.'.name AS element_name
+                    FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = 
+                    mdl_course_modules.module AND mdl_course_modules.course = _'.$idCourse.')
+                    INNER JOIN mdl_'.$tipoActividad.' ON (mdl_coursemodules.instance = mdl_'.$tipoActividad.'.id 
+                    AND mdl_coursemodules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "_'.$tipoActividad.'")';
                     $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                     $moduleId = array_column($modules, 'id');
                     $moduleType = array_column($modules, 'type');
@@ -683,6 +709,10 @@ class block_tutorvirtual extends block_list {
       return $timedActivities;
     }
     
+  }
+  
+  function _self_test() {
+    return true;
   }
   
 }
