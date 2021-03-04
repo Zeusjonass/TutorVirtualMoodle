@@ -51,7 +51,7 @@
 
 
 /*Menus desplegables*/
-.dropdown, .dropdown2{
+.dropdown-tutorvirtual, .dropdown2{
     position: absolute;
     width: 100%;
     flex-wrap: wrap;
@@ -59,7 +59,7 @@
     top: 0;
 }
 
-.dropdown{
+.dropdown-tutorvirtual{
     z-index: 2;
 }
 
@@ -123,11 +123,11 @@
     color: white;
 }
 
-.ul-tutorvirtual li:hover .dropdown{
+.ul-tutorvirtual li:hover .dropdown-tutorvirtual{
     visibility: visible;
 }
 
-.dropdown li:hover .dropdown2{
+.dropdown-tutorvirtual li:hover .dropdown2{
     visibility: visible;
 }
 

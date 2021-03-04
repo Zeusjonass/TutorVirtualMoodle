@@ -14,7 +14,7 @@ window.onclick = function(event) {
       ubicacion = imagen.getBoundingClientRect();
       if(parseFloat(ubicacion.right) > parseFloat(window.innerWidth) / 2){
         menuBox.style.left = "-190%"; 
-        subMenus = document.querySelectorAll('.dropdown, .dropdown2');
+        subMenus = document.querySelectorAll('.dropdown-tutorvirtual, .dropdown2');
         subMenus.forEach(subMenu => {
           subMenu.style.left = "-100%";
         });
@@ -23,7 +23,7 @@ window.onclick = function(event) {
       }
       else{
         menuBox.style.left = "105%"; 
-        subMenus = document.querySelectorAll('.dropdown, .dropdown2');
+        subMenus = document.querySelectorAll('.dropdown-tutorvirtual, .dropdown2');
         subMenus.forEach(subMenu => {
           subMenu.style.left = "100%";
         });
