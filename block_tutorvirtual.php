@@ -110,11 +110,11 @@ class block_tutorvirtual extends block_list {
                 } else {
                   if ($tipoActividad == 'forum') {
                     $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS module, 
-                    mdl_coursemodules.instance, mdl_'.$tipoActividad.'.name AS element_name
+                    mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS element_name
                     FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = 
-                    mdl_course_modules.module AND mdl_course_modules.course = _'.$idCourse.')
-                    INNER JOIN mdl_'.$tipoActividad.' ON (mdl_coursemodules.instance = mdl_'.$tipoActividad.'.id 
-                    AND mdl_coursemodules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "_'.$tipoActividad.'")';
+                    mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
+                    INNER JOIN mdl_'.$tipoActividad.' ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id 
+                    AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
                     $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                     $moduleId = array_column($modules, 'id');
                     $moduleType = array_column($modules, 'type');
