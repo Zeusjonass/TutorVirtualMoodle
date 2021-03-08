@@ -49,6 +49,14 @@
     width: 350px;
 }
 
+#PregFrecPlat .dropdown2{ 
+    width: 500px;
+}
+
+#PregFrecPlat p{
+    text-align: left;
+    display: none;
+}
 
 /*Menus desplegables*/
 .dropdown-tutorvirtual, .dropdown2{
@@ -133,6 +141,11 @@
 
 .boton:hover{
     background-color: #0d5da8;
+}
+
+#PregFrecPlat li ul li:hover a:hover + p{
+    display: block;
+    
 }
 
 
