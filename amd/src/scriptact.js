@@ -20,6 +20,10 @@ window.onclick = function(event) {
         });
         divMensaje.style.left = "-175%";
         listaActs.style.left = "-175%";
+        PFPs = document.querySelectorAll('#PregFrecPlat .dropdown2');
+        PFPs.forEach(PFP => {
+          PFP.style.left = "-250%";
+        });
       }
       else{
         menuBox.style.left = "105%"; 
