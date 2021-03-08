@@ -1,11 +1,19 @@
 <?php
 $string['pluginname'] = 'Tutor virtual';
 $string['tutorVirtual'] = 'Tutor Virtual';
+$string['title'] = '';
 $string['tutorVirtual:addinstance'] = 'Agrega un nuevo bloque de tutor virtual';
 $string['tutorVirtual:myaddinstance'] = 'Agrega un nuevo tutor virtual a tu pagina de Moodle';
-$string['mensajeriaProfe'] = 'Mensajeria con el profesor';
-$string['notificacionesTarea'] = 'Notificaciones de tareas';
-$string['material'] = 'Material de la materia';
-$string['dudasPlat'] = 'Dudas frecuentes sobre la plataforma';
-$string['dudasTarea'] = 'Dudas frecuentes sobre la tarea o tema';
-$string['notifMensaje'] = 'Notificaciones de mensajes';
+$string['faqCourse'] = 'Preguntas Frecuentes del Curso';
+$string['facMoodle'] = 'Preguntas Frecuentes de la Plataforma';
+$string['savedQuestion'] = 'Muchas gracias por registrar su pregunta!';
+$string['activities'] = 'Actividades';
+$string['resources'] = 'Recursos';
+$string['msgTeacher'] = 'Mensaje al Profesor';
+$string['msgCaption'] = '¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!';
+$string['formDesc1'] = 'Hola! Soy el Tutor Virtual';
+$string['formDesc2'] = 'Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.';
+$string['formDesc3'] = 'Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.';
+$string['questionSubject'] = 'Unidad de la pregunta:';
+$string['save'] = 'Guardar';
+$string['resources'] = 'Recursos';
