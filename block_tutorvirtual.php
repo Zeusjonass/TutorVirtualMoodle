@@ -69,7 +69,9 @@ class block_tutorvirtual extends block_list {
       $this->content->items[] = $formulario;
       //Enviamos la pregunta a la base de datos
       if (isset($_POST['pregunta'])) {
-        $unidad = $_POST['unidad'];
+        foreach($_POST['unidad'] as $selected) {
+          $unidad = $selected;
+        }
         $pregunta = $_POST['pregunta'];
         $respuesta = $_POST['respuesta'];
         $this->guardarPregunta($unidad, $pregunta, $respuesta);
@@ -673,7 +675,7 @@ class block_tutorvirtual extends block_list {
       $formulario .= html_writer::empty_tag('br');
       if(count($section_ids)>1) {
         $formulario .= html_writer::div("Tema de la pregunta:", array('id'=>'labelTema','class'=>'label'));
-        $formulario .= html_writer::start_tag('select', array('id'=>'temas','name'=>'temas','class'=>'form-select form-control'));
+        $formulario .= html_writer::start_tag('select', array('id'=>'unidad','name'=>'unidad[]','class'=>'form-select form-control'));
         for($i=0;$i<count($section_ids);$i++) {
           $formulario .= html_writer::start_tag('option',array('value'=>$section_ids[$i]));
           $formulario .= $section_names[$i];
