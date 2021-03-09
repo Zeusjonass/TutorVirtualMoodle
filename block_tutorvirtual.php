@@ -131,9 +131,12 @@ class block_tutorvirtual extends block_list {
                       }
                     }
                   } else if($tipoActividad == 'assign'){     
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, 
+                      mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
+                      INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course 
+                      AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
@@ -158,9 +161,12 @@ class block_tutorvirtual extends block_list {
                       }
                     }
                     else if($tipoActividad == 'quiz'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeclose as timeclose
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      mdl_'.$tipoActividad.'.timeclose as timeclose
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course 
+                      AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
@@ -185,9 +191,12 @@ class block_tutorvirtual extends block_list {
                       }
                     }
                     else if($tipoActividad == 'chat'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.chattime as chattime
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      mdl_'.$tipoActividad.'.chattime as chattime
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id 
+                      AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
@@ -212,8 +221,10 @@ class block_tutorvirtual extends block_list {
                       }
                     }
                     else if($tipoActividad == 'workshop'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.submissionend as submissionend
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      mdl_'.$tipoActividad.'.submissionend as submissionend
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      INNER JOIN mdl_'.$tipoActividad.'
                       ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
@@ -239,8 +250,10 @@ class block_tutorvirtual extends block_list {
                       }
                     }
                     else if($tipoActividad == 'data'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.timeavailableto as timeavailableto
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      mdl_'.$tipoActividad.'.timeavailableto as timeavailableto
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      INNER JOIN mdl_'.$tipoActividad.'
                       ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
@@ -267,7 +280,8 @@ class block_tutorvirtual extends block_list {
                     }
                     else{
                       $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoActividad.'
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      INNER JOIN mdl_'.$tipoActividad.'
                       ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
                       $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
