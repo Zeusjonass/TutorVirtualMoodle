@@ -321,7 +321,8 @@ class block_tutorvirtual extends block_list {
   }
 
   function listaRecursos(){
-    global $DB, $CFG;
+    global $DB, $CFG, $PAGE;
+    $idCourse = $PAGE->course->id;
     $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('resources', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default'));
@@ -331,7 +332,8 @@ class block_tutorvirtual extends block_list {
         foreach($tiposRecursos as $tipoRecurso){
           if($tipoRecurso == 'book'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
@@ -354,7 +356,8 @@ class block_tutorvirtual extends block_list {
 
           if($tipoRecurso == 'folder'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
@@ -377,7 +380,8 @@ class block_tutorvirtual extends block_list {
 
           if($tipoRecurso == 'page'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
@@ -400,7 +404,8 @@ class block_tutorvirtual extends block_list {
 
           if($tipoRecurso == 'url'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
@@ -423,7 +428,8 @@ class block_tutorvirtual extends block_list {
 
           if($tipoRecurso == 'imscp'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
@@ -446,7 +452,8 @@ class block_tutorvirtual extends block_list {
 
           if($tipoRecurso == 'label'){
             $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON mdl_modules.id = mdl_course_modules.module INNER JOIN mdl_'.$tipoRecurso.'
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+              INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
             $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
