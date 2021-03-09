@@ -5,7 +5,7 @@ require_once("$CFG->libdir/formslib.php");
 class block_tutorvirtual extends block_list {
 
   public function init() {
-
+    $this->title = get_string('title', 'block_tutorvirtual');
   }
 
   public function get_content() {
@@ -102,7 +102,7 @@ class block_tutorvirtual extends block_list {
     $timedActivities = array();
     $untimedActivities = array();
     $menu = html_writer::start_tag('li', array('id'=>'actividades'));
-            $menu .= '<a id="menuActividades">Actividades</a>';
+            $menu .= '<a id="menuActividades">'.get_string('activities', 'block_tutorvirtual').'</a>';
             $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual scroll', 'id'=>'listaActs'));
 
               $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
@@ -309,7 +309,7 @@ class block_tutorvirtual extends block_list {
   function listaRecursos(){
     global $DB, $CFG;
     $menu = html_writer::start_tag('li');
-      $menu .= '<a>Recursos</a>';
+      $menu .= '<a>'.get_string('resources', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default'));
         
         $tiposRecursos = array('book','folder','files','page','url','imscp','label'); 
@@ -326,7 +326,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Libros</a>';
+                $menu .= '<a>'.get_string('books', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -349,7 +349,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Carpetas</a>';
+                $menu .= '<a>'.get_string('folders', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -372,7 +372,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Páginas</a>';
+                $menu .= '<a>'.get_string('pages', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -395,7 +395,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>URLs</a>';
+                $menu .= '<a>'.get_string('urls', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -418,7 +418,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>IMSCP</a>';
+                $menu .= '<a>'.get_string('imscp', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -441,7 +441,7 @@ class block_tutorvirtual extends block_list {
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>Etiquetas</a>';
+                $menu .= '<a>'.get_string('labels', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
@@ -460,10 +460,10 @@ class block_tutorvirtual extends block_list {
 
   function mensajeAlProfesor(){
     $menu = html_writer::start_tag('li');
-      $menu .= '<a>Mensaje al profesor</a>';
+      $menu .= '<a>'.get_string('msgTeacher', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default', 'id'=>'divMensaje'));
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a id="leyendaMensaje">¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!</a>';
+          $menu .= '<a id="leyendaMensaje">'.get_string('msgCaption', 'block_tutorvirtual').'</a>';
           $menu .= html_writer::start_tag('form', array('method'=>'post', 'action'=>''));
             $menu .= html_writer::start_tag('textarea', array('name'=>'textfield', 'id'=>'textfield', 'class'=>'form-control'));
             $menu .= html_writer::end_tag('textarea');
@@ -477,145 +477,87 @@ class block_tutorvirtual extends block_list {
 
   function preguntasPlataforma(){
    $menu = html_writer::start_tag('li');
-      $menu .= '<a id="menuNotificaciones">Preguntas Frecuentes de la Plataforma</a>';
+      $menu .= '<a id="menuNotificaciones">'.get_string('faqMoodle', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('id'=>'PregFrecPlat', 'class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default'));
         
       $menu .= html_writer::start_tag('li');
-        $menu .= '<a>Acceso y Navegación</a>';
+        $menu .= '<a>'.get_string('faqMoodleT1', 'block_tutorvirtual').'</a>';
           $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a>¿Por qué no puedo acceder?</a>';
-              $menu .= '<p>Podría haber muchas razones, pero la más probable es que simplemente haya olvidado su contraseña, 
-              esté intentando acceder con una contraseña equivocada o la esté escribiendo incorrectamente. Algunas otras posibilidades son:<br><br>
-              ¿Contienen su nombre de usuario o contraseña una mezcla de MAYÚSCULAS y minúsculas?. Si es así, deberán ser escritas en la forma exacta.<br>
-              ¿Están habilitadas las cookies en su navegador?
-              </p>';
+              $menu .= '<a>'.get_string('faqMoodleQ1', 'block_tutorvirtual').'</a>';
+              $menu .= '<p>'.get_string('faqMoodleA1', 'block_tutorvirtual').'</p>';
             $menu .= html_writer::end_tag('li');
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a>¿Cómo gano acceso a un curso?</a>';
-              $menu .= '<p>Localice o busque el curso deseado (Usted puede elegir "Todos los cursos..." en el bloque de "Mis cursos") 
-              y elija el nombre del curso. Si su profesor le ha dado una clave o contraseña para inscripción, escríbala en donde 
-              corresponda y elija "Inscríbirme en este curso". Una vez que Usted esté insrito en el curso, aparecerá debajo de 
-              "Mis cursos" cada vez que Usted ingrese al sitio Moodle.
-              </p>';
+              $menu .= '<a>'.get_string('faqMoodleQ2', 'block_tutorvirtual').'</a>';
+              $menu .= '<p>'.get_string('faqMoodleA2', 'block_tutorvirtual').'</p>';
             $menu .= html_writer::end_tag('li');
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a>¿Cómo salto entre mis cursos?</a>';
-              $menu .= '<p>Mediante su bloque de Mis Cursos si está disponible
-              Vuelva a la página principal homepage (vea más adelante) y utilice el bloque de Mis Cursos del curso principal 
-              (si está disponible!)
-              </p>';
+              $menu .= '<a>'.get_string('faqMoodleQ3', 'block_tutorvirtual').'</a>';
+              $menu .= '<p>'.get_string('faqMoodleA3', 'block_tutorvirtual').'</p>';
             $menu .= html_writer::end_tag('li');
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a>¿Cómo regreso a la página principal del curso?</a>';
-              $menu .= '<p>
-              Utilice la Barra de navegación que está en la parte superior izquierda de la página, o use el botón en la parte 
-              completamente inferior de la página del curso.
-              </p>';
+              $menu .= '<a>'.get_string('faqMoodleQ4', 'block_tutorvirtual').'</a>';
+              $menu .= '<p>'.get_string('faqMoodleA4', 'block_tutorvirtual').'</p>';
             $menu .= html_writer::end_tag('li');
             $menu .= html_writer::start_tag('li');
-              $menu .= '<a>¿Cómo puedo encontrar el curso X?</a>';
-              $menu .= '<p>
-              Si no está ya inscrito en un curso, puede buscarlo por el nombre y descripción.Si ya está inscrito le aparecerá 
-              en su blog ( si está disponible).
-              </p>';
+              $menu .= '<a>'.get_string('faqMoodleQ5', 'block_tutorvirtual').'</a>';
+              $menu .= '<p>'.get_string('faqMoodleA5', 'block_tutorvirtual').'</p>';
             $menu .= html_writer::end_tag('li');
           $menu .= html_writer::end_tag('ul');
         $menu .= html_writer::end_tag('li');
 
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a>Contenido de Curso</a>';
+          $menu .= '<a>'.get_string('faqMoodleT2', 'block_tutorvirtual').'</a>';
             $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿A dónde se han ido todos los temas/semanas?</a>';
-                $menu .= '<p>
-                Probablemente pulsó en el icono One.gif. Para descubrir todos los otros temas/semanas necesita pulsar el icono 
-                All.gif que verá en el margen derecho de temas/semanas. Si los temas están colapsados puede utilizar el combo 
-                desplegable y moverse por los temas/semanas que se muestran para saltar a una sección oculta.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ6', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA6', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
             $menu .= html_writer::end_tag('ul');
         $menu .= html_writer::end_tag('li');
 
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a>Tareas y Calificaciones</a>';
+          $menu .= '<a>'.get_string('faqMoodleT3', 'block_tutorvirtual').'</a>';
             $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Por qué no hay botón de "subir" (o "grabar")?</a>';
-                $menu .= '<p>
-                Puede ser que:<br><br>
-
-                  La tarea esté cerrada en este momento.<br>
-                  La tarea no haya sido abierto aún.<br>
-                  Ya ha subido/grabado algo antes y la configuración impida que repita las tareas.
-
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ7', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA7', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Cómo puedo ver los comentarios del profesor a mis tareas recientes?</a>';
-                $menu .= '<p>
-                Hay muchas maneras de acceder a esos comentarios. El método más común consiste en ir al mismo sitio en 
-                el que envió/subió el trabajo. Otro método consiste en pulsar en el vínculo que se encuentra en el bloque 
-                "Actividades recientes", en el caso de que el profesor haya incluido ese bloque en su curso. Un método más 
-                consistiría en accedere al libro de calificacionesy pinchar en el vínculo correspondiente a la tarea. 
-                Dependiendo de cómo se haya configurado la tarea, puede recibir un correo electrónico si ha sido seleccionado 
-                con un vínculo directo a los comentarios.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ8', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA8', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Por qué mi promedio del curso es tan baja?</a>';
-                $menu .= '<p>
-                No se asuste. El sistema de evaluación de Moodle tiene en cuenta los trabajos no calificados y los pendientes 
-                de envío. Dicho de otro modo: Usted empieza con un cero y a medida que vaya avanzando a través del curso y 
-                completando las actividades evaluables su nota subirá poco a poco.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ9', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA9', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
             $menu .= html_writer::end_tag('ul');
           $menu .= html_writer::end_tag('li');
 
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a>Exámenes</a>';
+          $menu .= '<a>'.get_string('faqMoodleT4', 'block_tutorvirtual').'</a>';
             $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Qué botón pulso cuando he terminado el examen?</a>';
-                $menu .= '<p>
-                Depende de lo que quiera hacer...
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ10', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA10', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Porqué estoy obteniendo cero de calificación en mi examen?</a>';
-                $menu .= '<p>
-                Puede ser que haya excedido el tiempo límite para completar el examen. Esto nunca debería de suceder, porque 
-                el cronómetro descendiente debería de enviar el examen automáticamente en cuanto se agote el tiempo, y después 
-                el servidor Moodle debería de procesar su envío rápidamente. Sin embargo, si el servidor estuviera sobrecargado, 
-                y corriendo lentamente, sus respuestas podrían no ser procesadas hasta después de un tiempo que sobrepasa el 
-                margen permitido para envío del examen y a Usted no le estarán dando puntos para sus respuestas.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ11', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA11', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
             $menu .= html_writer::end_tag('ul');
         $menu .= html_writer::end_tag('li');
 
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a>Correos y Foros</a>';
+          $menu .= '<a>'.get_string('faqMoodleT5', 'block_tutorvirtual').'</a>';
             $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Por qué no tengo ningún correo y otros usuarios sí?</a>';
-                $menu .= '<p>
-                Es posible que su dirección de correo en su perfil esté errónea o deshabilitada. También pudiera ser que 
-                no se haya suscrito a los foros que generan correos. Los usuarios AOL pueden no recibir correo tampoco 
-                si el administrador ha bloqueado el uso de direcciones de correo AOL.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ12', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA12', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
               $menu .= html_writer::start_tag('li');
-                $menu .= '<a>¿Cómo puedo dejar de recibir todos estos correos?</a>';
-                $menu .= '<p>
-                El correo electrónico es esencial para el funcionamiento de Moodle. Se emplea para mantenerte informado de 
-                las novedades. Si quieres reducir la cantidad de correos que recibes puedes:<br><br>
-
-                  Editar su perfil y cambiar su configuración de e-mail para recibir resúmenes.<br>
-                  Cancelar su subscripción a foros no esenciales (¡aunque existen por algo!).<br>
-                  Inhabilitar su dirección de correo electrónico de su perfil, aunque esto no recomendable y puede ir en contra de las reglas de la casa.
-                </p>';
+                $menu .= '<a>'.get_string('faqMoodleQ13', 'block_tutorvirtual').'</a>';
+                $menu .= '<p>'.get_string('faqMoodleA3', 'block_tutorvirtual').'</p>';
               $menu .= html_writer::end_tag('li');
             $menu .= html_writer::end_tag('ul');
         $menu .= html_writer::end_tag('li');
@@ -641,7 +583,7 @@ class block_tutorvirtual extends block_list {
 
     if(count($section_names) > 0){
       $menu = html_writer::start_tag('li');
-      $menu .= '<a id="menuPreguntasFrecuentes">Preguntas Frecuentes del Curso</a>';
+      $menu .= '<a id="menuPreguntasFrecuentes">'.get_string('faqCourse', 'block_tutorvirtual').'</a>';
         $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual scroll'));
           for ($i=0; $i<count($section_names); $i++) {
             $menu .= html_writer::start_tag('li');
