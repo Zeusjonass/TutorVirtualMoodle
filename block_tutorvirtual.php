@@ -302,17 +302,21 @@ class block_tutorvirtual extends block_list {
               $timedActivitesSorted = $this->bubble_sort($timedActivities);
               
               for($i=0; $i<count($timedActivitesSorted); $i++){
-                $fechaEntrega = getdate($timedActivitesSorted[$i]['fecha']);
-                $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                $menu .= html_writer::link($timedActivitesSorted[$i]['link'], $timedActivitesSorted[$i]['nombre']);
-                $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $this->add_minute_digits($fechaEntrega['minutes']) . '</p>';
-                $menu .= html_writer::end_tag('li');
+                if($timedActivitesSorted[$i]['nombre'] != null){
+                  $fechaEntrega = getdate($timedActivitesSorted[$i]['fecha']);
+                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
+                  $menu .= html_writer::link($timedActivitesSorted[$i]['link'], $timedActivitesSorted[$i]['nombre']);
+                  $menu .= '<p>Entregable hasta: ' . $fechaEntrega['mday'] . '/' . $fechaEntrega['mon'] . '/' . $fechaEntrega['year'] . ' - ' . $fechaEntrega['hours'] . ':' . $this->add_minute_digits($fechaEntrega['minutes']) . '</p>';
+                  $menu .= html_writer::end_tag('li');
+                }
               }
 
               for($i=0; $i<count($untimedActivities); $i++){
-                $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
-                $menu .= html_writer::link($untimedActivities[$i]['link'], $untimedActivities[$i]['nombre']);
-                $menu .= html_writer::end_tag('li');
+                if($untimedActivities[$i]['nombre'] != null){
+                  $menu .= html_writer::start_tag('li', array('class'=>'rowAct'));
+                  $menu .= html_writer::link($untimedActivities[$i]['link'], $untimedActivities[$i]['nombre']);
+                  $menu .= html_writer::end_tag('li');
+                }
               }
 
             $menu .= html_writer::end_tag('ul');
