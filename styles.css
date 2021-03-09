@@ -3,14 +3,12 @@
     z-index: 1000;  
 }
 
-
 /*Huella*/
 #imagen{
     cursor: pointer;
     width: auto; 
     height: 120px;
 }
-
 
 /*Listas general*/
 .ul-tutorvirtual{
@@ -26,7 +24,6 @@
 
 .ul-tutorvirtual li{
     position: relative;
-    text-align: center;
     padding: 8px;
     list-style-position: inside;
     border-bottom: 1px solid rgba(0,0,0,.125);
@@ -37,6 +34,10 @@
     color: #333;
 }
 
+.ul-tutorvirtual li a{
+    display: flex;
+    justify-content: center;
+}
 
 /*Listas*/
 #menu{
@@ -113,7 +114,6 @@
 
 
 /*Cursores*/
-
 .cursor-default > li > a{
     cursor: default;
 }
@@ -150,7 +150,6 @@
 
 
 /*Scroll*/
-
 .scroll{
     overflow-y: scroll;
     max-height: 300px;
