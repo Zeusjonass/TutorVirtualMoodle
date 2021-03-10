@@ -26,7 +26,7 @@ class block_tutorvirtual extends block_list {
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
     //$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    if(true){
+    if(false){
     //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
@@ -76,7 +76,7 @@ class block_tutorvirtual extends block_list {
         $respuesta = $_POST['respuesta'];
         $this->guardarPregunta($unidad, $pregunta, $respuesta);
         echo '<script type="text/javascript">'
-          , 'alert("Muchas gracias por registrar su pregunta!");'
+          , 'alert("'.get_string('savedQuestion', 'block_tutorvirtual').'");'
           , '</script>'
         ;
       }
@@ -631,17 +631,17 @@ class block_tutorvirtual extends block_list {
 
     for($i=0; $i<count($section_names) ;$i++) {
       if(is_null($section_names[$i])) {
-        $section_names[$i] = 'Tema ' . $section_ids[$i];
+        $section_names[$i] = get_string('topic', 'block_tutorvirtual') . ' ' . $section_ids[$i];
       }
     }
 
     $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
-      $formulario .= html_writer::div("Hola! Soy el tutor virtual",  array('id' => 'title'));
-      $formulario .= html_writer::div("Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.",  array('id' => 'desc1', 'class' => 'desc'));
-      $formulario .= html_writer::div("Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.",  array('id' => 'desc2', 'class' => 'decs'));
+      $formulario .= html_writer::div(get_string('formTitle', 'block_tutorvirtual'),  array('id' => 'title'));
+      $formulario .= html_writer::div(get_string('formDesc1', 'block_tutorvirtual'),  array('id' => 'desc1', 'class' => 'desc'));
+      $formulario .= html_writer::div(get_string('formDesc2', 'block_tutorvirtual'),  array('id' => 'desc2', 'class' => 'decs'));
       $formulario .= html_writer::empty_tag('br');
       if(count($section_ids)>1) {
-        $formulario .= html_writer::div("Tema de la pregunta:", array('id'=>'labelTema','class'=>'label'));
+        $formulario .= html_writer::div(get_string('labelTopic', 'block_tutorvirtual'), array('id'=>'labelTema','class'=>'label'));
         $formulario .= html_writer::start_tag('select', array('id'=>'unidad','name'=>'unidad[]','class'=>'form-select form-control'));
         for($i=0;$i<count($section_ids);$i++) {
           $formulario .= html_writer::start_tag('option',array('value'=>$section_ids[$i]));
@@ -651,10 +651,10 @@ class block_tutorvirtual extends block_list {
         $formulario .= html_writer::end_tag('select');
       }
       $formulario .= html_writer::empty_tag('br');
-      $formulario .= html_writer::div("Pregunta:",  array('id' => 'labelPregunta', 'class' => 'label'));
+      $formulario .= html_writer::div(get_string('labelQuestion', 'block_tutorvirtual'),  array('id' => 'labelPregunta', 'class' => 'label'));
       $formulario .= html_writer::empty_tag('input', array('type'=>'text', 'name'=>'pregunta', 'id'=>'pregunta', 'required'=>'required', 'class'=>'form-control'));
       $formulario .= html_writer::empty_tag('br');
-      $formulario .= html_writer::div("Respuesta:",  array('id' => 'labelRespuesta', 'class' => 'label'));
+      $formulario .= html_writer::div(get_string('labelAnswer', 'block_tutorvirtual'),  array('id' => 'labelRespuesta', 'class' => 'label'));
       $formulario .= html_writer::start_tag('textarea', array('id'=>'respuesta', 'name'=>'respuesta', 'class'=>'form-control', 'required'=>'required',));
       $formulario .= html_writer::end_tag('textarea');
       $formulario .= html_writer::empty_tag('br');
