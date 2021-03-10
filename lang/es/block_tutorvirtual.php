@@ -114,3 +114,11 @@ las novedades. Si quieres reducir la cantidad de correos que recibes puedes:<br>
   Editar su perfil y cambiar su configuración de e-mail para recibir resúmenes.<br>
   Cancelar su subscripción a foros no esenciales (¡aunque existen por algo!).<br>
   Inhabilitar su dirección de correo electrónico de su perfil, aunque esto no recomendable y puede ir en contra de las reglas de la casa.';
+//Formulario del profesor
+$string['topic'] = 'Tema';
+$string['formTitle'] = '¡Hola! Soy el tutor virtual';
+$string['formDesc1'] = 'Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.';
+$string['formDesc2'] = 'Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.';
+$string['labelTopic'] = 'Tema de la pregunta:';
+$string['labelQuestion'] = 'Pregunta:';
+$string['labelAnswer'] = 'Respuesta:';
