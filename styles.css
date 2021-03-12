@@ -4,83 +4,81 @@
 }
 
 /*Huella*/
-#imagen{
+#btn-huellita{
     cursor: pointer;
     width: auto; 
     height: 120px;
 }
 
-/*Listas general*/
-.ul-tutorvirtual{
-    width: 200px;
-    margin: 0;
+/*Menus*/
+.lista-tutorVirtual{
     padding: 0;
-    list-style: none;
+    margin: 0;
+    top: 0;
+    width: 200px;
     background-color: white;
-    box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    border-top: 1px solid rgba(0,0,0,.125);
-}
-
-.ul-tutorvirtual li{
-    position: relative;
-    padding: 8px;
-    list-style-position: inside;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-}
-
-.ul-tutorvirtual li {
-    text-decoration: none;
-    color: #333;
-}
-
-.ul-tutorvirtual li a{
+    list-style-type: none;
     display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(0,0,0,.125);
+    border-left: 1px solid rgba(0,0,0,.125);
+    border-right: 1px solid rgba(0,0,0,.125);
+    position: absolute;
+}
+
+.lista-tutorVirtual li{
+    padding: 8px;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    text-align: center;
+    position: relative;
+}
+
+.submenu-1{
+    visibility: hidden;
+    z-index: 2;
+}
+
+.submenu-2{
+    visibility: hidden;
+    z-index: 3;
 }
 
 /*Listas*/
-#menu{
+#listaPrincipal{
+    top: -40%;
     display: none;
-    position: absolute;
-    top:-40%;
 }
 
-#listaActs{
+#listaActividades{
     width: 350px;
 }
 
-#PregFrecPlat .dropdown2{ 
+#listaRecursos{
+
+}
+
+#mensajeProfesor{
+    width: 350px;
+
+}
+
+#preguntasFrecuentesPlataforma .submenu-2{
     width: 500px;
 }
 
-#PregFrecPlat p{
+#preguntasFrecuentesPlataforma p{
     text-align: left;
     display: none;
 }
 
-/*Menus desplegables*/
-.dropdown-tutorvirtual, .dropdown2{
-    position: absolute;
-    width: 100%;
-    flex-wrap: wrap;
-    visibility: hidden;
-    top: 0;
+#preguntasFrecuentesCurso .submenu-2{
+    width: 500px;
 }
 
-.dropdown-tutorvirtual{
-    z-index: 2;
-}
-
-.dropdown2{
-    z-index: 3;
-}
-
-
-/*Mensaje*/
-#divMensaje{
-    width: 350px;
-}
+/*Elementos del Mensaje al profesor*/
 
 #formulario{
     text-align: center;
@@ -112,44 +110,45 @@
     transition: background .2s ease-in-out;
 }
 
+/*Hover*/
+.lista-tutorVirtual li:hover .submenu-1{
+    visibility: visible;
 
-/*Cursores*/
-.cursor-default > li > a{
-    cursor: default;
 }
 
-/*Hover*/
-.ul-tutorvirtual li:hover{
+.submenu-1 li:hover .submenu-2{
+    visibility: visible;
+}
+
+.lista-tutorVirtual > li:hover{
     background-color: #C68D2A;
 }
 
-.ul-tutorvirtual li:hover > a {
+.lista-tutorVirtual li:hover > a {
     color: white;
+    font-weight: bold;
 }
 
-.ul-tutorvirtual li:hover > p {
+.lista-tutorVirtual li:hover > p {
     color: white;
-}
-
-.ul-tutorvirtual li:hover .dropdown-tutorvirtual{
-    visibility: visible;
-}
-
-.dropdown-tutorvirtual li:hover .dropdown2{
-    visibility: visible;
 }
 
 .boton:hover{
     background-color: #0d5da8;
 }
 
-#PregFrecPlat li ul li:hover a:hover + p{
+#preguntasFrecuentesPlataforma li ul li:hover a:hover + p{
     display: block;
     
 }
 
+/*Cursores*/
+.cursor-default > li > a{
+    cursor: default;
+}
 
 /*Scroll*/
+
 .scroll{
     overflow-y: scroll;
     max-height: 300px;
