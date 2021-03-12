@@ -617,21 +617,21 @@ class block_tutorvirtual extends block_list {
 
     if(count($section_names) > 0){
       $menu = html_writer::start_tag('li');
-      $menu .= '<a>Preguntas Frecuentes del Curso</a>';
+        $menu .= '<a>Preguntas Frecuentes del Curso</a>';
         $menu .= html_writer::start_tag('ul', array('id'=>'preguntasFrecuentesCurso','class'=>'lista-tutorVirtual submenu-1'));
           for ($i=0; $i<count($section_names); $i++) {
             $menu .= html_writer::start_tag('li');
-            $menu .= html_writer::link($CFG->wwwroot . "/course/view.php?id=".$courseid."#section-".$section_ids[$i], $section_names[$i]);
-            for ($j=0; $j < count($question) ; $j++) {
-              if ($section_ids[$i]== $unit[$j]) {
-                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
+              $menu .= html_writer::link($CFG->wwwroot . "/course/view.php?id=".$courseid."#section-".$section_ids[$i], $section_names[$i]);
+              $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
+              for ($j=0; $j < count($question) ; $j++) {
+                if ($section_ids[$i]== $unit[$j]) {
                   $menu .= html_writer::start_tag('li');
                     $menu .= '<a>'.$question[$j].'</a>';
                     $menu .= '<p>'.$answer[$j].'</p>';
                   $menu .= html_writer::end_tag('li');
-                $menu .= html_writer::end_tag('ul');
+                }
               }
-            }
+              $menu .= html_writer::end_tag('ul');
             $menu .= html_writer::end_tag('li');
           }
         $menu .= html_writer::end_tag('ul');
