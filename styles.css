@@ -78,6 +78,11 @@
     width: 500px;
 }
 
+#preguntasFrecuentesCurso p{
+    text-align: left;
+    display: none;
+}
+
 /*Elementos del Mensaje al profesor*/
 
 #formulario{
@@ -137,7 +142,12 @@
     background-color: #0d5da8;
 }
 
-#preguntasFrecuentesPlataforma li ul li:hover a:hover + p{
+#preguntasFrecuentesPlataforma li ul li a:hover + p{
+    display: block;
+    
+}
+
+#preguntasFrecuentesCurso li ul li a:hover + p{
     display: block;
     
 }
