@@ -26,15 +26,15 @@ class block_tutorvirtual extends block_list {
     $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
     //$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    if(false){
+    if(true){
     //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
-          $menu .= html_writer::empty_tag('img', array('id'=>'imagen', 'draggable'=>'true', 'clickable'=>'true', 'onclick'=>'toggleMenu()', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+          $menu .= html_writer::empty_tag('img', array('id'=>'btn-huellita', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
         $menu .= html_writer::end_tag('div');
         $menu .= html_writer::start_tag('div', array());
-          $menu .= html_writer::start_tag('ul', array('id'=>'menu', 'class'=>'ul-tutorvirtual cursor-default'));
+          $menu .= html_writer::start_tag('ul', array('id'=>'listaPrincipal', 'class'=>'lista-tutorVirtual cursor-default'));
 
             // Agregamos la sección de Actividades Pendientes
             $menu .= $this->listaActividades();
@@ -102,8 +102,8 @@ class block_tutorvirtual extends block_list {
     $timedActivities = array();
     $untimedActivities = array();
     $menu = html_writer::start_tag('li', array('id'=>'actividades'));
-            $menu .= '<a id="menuActividades">'.get_string('activities', 'block_tutorvirtual').'</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual scroll', 'id'=>'listaActs'));
+            $menu .= '<a>'.get_string('activities', 'block_tutorvirtual').'</a>';
+            $menu .= html_writer::start_tag('ul', array('id'=>'listaActividades', 'class'=>'lista-tutorVirtual submenu-1 scroll'));
 
               $tiposActividades = array('assign', 'chat', 'quiz', 'data', 'lti', 'feedback', 'forum', 'glossary', 'h5p', 'lesson', 'choice', 'scorm', 'survey', 'wiki', 'workshop');
               foreach($tiposActividades as $tipoActividad) {
@@ -329,7 +329,7 @@ class block_tutorvirtual extends block_list {
     $idCourse = $PAGE->course->id;
     $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('resources', 'block_tutorvirtual').'</a>';
-      $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default'));
+      $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'lista-tutorVirtual submenu-1 cursor-default'));
         
         $tiposRecursos = array('book','folder','files','page','url','imscp','label'); 
 
@@ -347,7 +347,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('books', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -371,7 +371,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('folders', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -395,7 +395,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('pages', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -419,7 +419,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('urls', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -443,7 +443,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('imscp', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -467,7 +467,7 @@ class block_tutorvirtual extends block_list {
             if(count($moduleId) > 0){
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('labels', 'block_tutorvirtual').'</a>';
-                $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 scroll'));
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
                     $menu .= html_writer::start_tag('li');
                     $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
@@ -486,9 +486,9 @@ class block_tutorvirtual extends block_list {
   function mensajeAlProfesor(){
     $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('msgTeacher', 'block_tutorvirtual').'</a>';
-      $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default', 'id'=>'divMensaje'));
+      $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-1 cursor-default', 'id'=>'mensajeProfesor'));
         $menu .= html_writer::start_tag('li');
-          $menu .= '<a id="leyendaMensaje">'.get_string('msgCaption', 'block_tutorvirtual').'</a>';
+          $menu .= '<a>'.get_string('msgCaption', 'block_tutorvirtual').'</a>';
           $menu .= html_writer::start_tag('form', array('method'=>'post', 'action'=>''));
             $menu .= html_writer::start_tag('textarea', array('name'=>'textfield', 'id'=>'textfield', 'class'=>'form-control'));
             $menu .= html_writer::end_tag('textarea');
@@ -502,12 +502,12 @@ class block_tutorvirtual extends block_list {
 
   function preguntasPlataforma(){
    $menu = html_writer::start_tag('li');
-      $menu .= '<a id="menuNotificaciones">'.get_string('faqMoodle', 'block_tutorvirtual').'</a>';
-      $menu .= html_writer::start_tag('ul', array('id'=>'PregFrecPlat', 'class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual cursor-default'));
+      $menu .= '<a>'.get_string('faqMoodle', 'block_tutorvirtual').'</a>';
+      $menu .= html_writer::start_tag('ul', array('id'=>'preguntasFrecuentesPlataforma', 'class'=>'lista-tutorVirtual submenu-1 cursor-default'));
         
       $menu .= html_writer::start_tag('li');
         $menu .= '<a>'.get_string('faqMoodleT1', 'block_tutorvirtual').'</a>';
-          $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
+          $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
             $menu .= html_writer::start_tag('li');
               $menu .= '<a>'.get_string('faqMoodleQ1', 'block_tutorvirtual').'</a>';
               $menu .= '<p>'.get_string('faqMoodleA1', 'block_tutorvirtual').'</p>';
@@ -533,7 +533,7 @@ class block_tutorvirtual extends block_list {
 
         $menu .= html_writer::start_tag('li');
           $menu .= '<a>'.get_string('faqMoodleT2', 'block_tutorvirtual').'</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
+            $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('faqMoodleQ6', 'block_tutorvirtual').'</a>';
                 $menu .= '<p>'.get_string('faqMoodleA6', 'block_tutorvirtual').'</p>';
@@ -543,7 +543,7 @@ class block_tutorvirtual extends block_list {
 
         $menu .= html_writer::start_tag('li');
           $menu .= '<a>'.get_string('faqMoodleT3', 'block_tutorvirtual').'</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
+            $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('faqMoodleQ7', 'block_tutorvirtual').'</a>';
                 $menu .= '<p>'.get_string('faqMoodleA7', 'block_tutorvirtual').'</p>';
@@ -561,7 +561,7 @@ class block_tutorvirtual extends block_list {
 
         $menu .= html_writer::start_tag('li');
           $menu .= '<a>'.get_string('faqMoodleT4', 'block_tutorvirtual').'</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
+            $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('faqMoodleQ10', 'block_tutorvirtual').'</a>';
                 $menu .= '<p>'.get_string('faqMoodleA10', 'block_tutorvirtual').'</p>';
@@ -575,7 +575,7 @@ class block_tutorvirtual extends block_list {
 
         $menu .= html_writer::start_tag('li');
           $menu .= '<a>'.get_string('faqMoodleT5', 'block_tutorvirtual').'</a>';
-            $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown2 cursor-default'));
+            $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
               $menu .= html_writer::start_tag('li');
                 $menu .= '<a>'.get_string('faqMoodleQ12', 'block_tutorvirtual').'</a>';
                 $menu .= '<p>'.get_string('faqMoodleA12', 'block_tutorvirtual').'</p>';
@@ -595,10 +595,19 @@ class block_tutorvirtual extends block_list {
   function preguntasCurso(){
     global $PAGE, $DB, $CFG;
     $courseid = $PAGE->course->id;
+
+    //Secciones
     $sql = 'SELECT section,name FROM mdl_course_sections WHERE course = '. $courseid .' AND section > 0';
     $sections = $DB->get_records_sql($sql, array('section', 'name'), 0, 0);
     $section_ids = array_column($sections, 'section');
     $section_names = array_column($sections, 'name');
+
+    //Preguntas
+    $sql = 'SELECT question,answer, unit FROM mdl_course_question WHERE idcourse = '.$courseid.'';
+    $questions_course = $DB->get_records_sql($sql, array('question', 'answer','unit'), 0, 0);
+    $question = array_column($questions_course, 'question');
+    $answer = array_column($questions_course, 'answer');
+    $unit = array_column($questions_course, 'unit');
 
     for($i=0; $i<count($section_names) ;$i++) {
       if(is_null($section_names[$i])) {
@@ -608,11 +617,21 @@ class block_tutorvirtual extends block_list {
 
     if(count($section_names) > 0){
       $menu = html_writer::start_tag('li');
-      $menu .= '<a id="menuPreguntasFrecuentes">'.get_string('faqCourse', 'block_tutorvirtual').'</a>';
-        $menu .= html_writer::start_tag('ul', array('class'=>'ul-tutorvirtual dropdown dropdown-tutorvirtual scroll'));
+      $menu .= '<a>Preguntas Frecuentes del Curso</a>';
+        $menu .= html_writer::start_tag('ul', array('id'=>'preguntasFrecuentesCurso','class'=>'lista-tutorVirtual submenu-1'));
           for ($i=0; $i<count($section_names); $i++) {
             $menu .= html_writer::start_tag('li');
             $menu .= html_writer::link($CFG->wwwroot . "/course/view.php?id=".$courseid."#section-".$section_ids[$i], $section_names[$i]);
+            for ($j=0; $j < count($question) ; $j++) {
+              if ($section_ids[$i]== $unit[$j]) {
+                $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
+                  $menu .= html_writer::start_tag('li');
+                    $menu .= '<a>'.$question[$j].'</a>';
+                    $menu .= '<p>'.$answer[$j].'</p>';
+                  $menu .= html_writer::end_tag('li');
+                $menu .= html_writer::end_tag('ul');
+              }
+            }
             $menu .= html_writer::end_tag('li');
           }
         $menu .= html_writer::end_tag('ul');
