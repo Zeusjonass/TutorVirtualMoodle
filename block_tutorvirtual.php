@@ -664,8 +664,10 @@ class block_tutorvirtual extends block_list {
         $section_names[$i] = get_string('topic', 'block_tutorvirtual') . ' ' . $section_ids[$i];
       }
     }
-
-    $formulario = html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
+    $formulario = html_writer::start_tag('div', array('id'=>'divImgTutorVirtual'));
+      $formulario .= html_writer::empty_tag('img', array('id'=>'imgTutorVirtual', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+    $formulario .= html_writer::end_tag('div');
+    $formulario .= html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
       $formulario .= html_writer::div(get_string('formTitle', 'block_tutorvirtual'),  array('id' => 'title'));
       $formulario .= html_writer::div(get_string('formDesc1', 'block_tutorvirtual'),  array('id' => 'desc1', 'class' => 'desc'));
       $formulario .= html_writer::div(get_string('formDesc2', 'block_tutorvirtual'),  array('id' => 'desc2', 'class' => 'decs'));
