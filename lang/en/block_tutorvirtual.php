@@ -45,6 +45,7 @@ $string['formDesc2'] = 'My purpose is to offer students support while they are t
 $string['formDesc3'] = 'Help me to achieve it by entering in the following fields frequently asked questions that can be found in this course.';
 $string['questionSubject'] = 'Question unit:';
 $string['save'] = 'Save';
+$string['cafeteria'] = 'Go to the Cafeteria';
 //Temas de las preguntas frecuentes de la plataforma
 $string['faqMoodleT1'] = 'Access and Navigation';
 $string['faqMoodleT2'] = 'Course content';
