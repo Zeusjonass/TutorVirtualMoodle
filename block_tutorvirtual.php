@@ -1,5 +1,6 @@
 <?php
-
+ini_set('session.cache_limiter','public');
+session_cache_limiter(false);
 defined('MOODLE_INTERNAL') || die();
 require_once("$CFG->libdir/formslib.php");
 class block_tutorvirtual extends block_list {
