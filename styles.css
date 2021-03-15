@@ -152,6 +152,10 @@
     
 }
 
+#cafeteria:hover{
+    cursor: pointer;
+}
+
 /*Cursores*/
 .cursor-default > li > a{
     cursor: default;
