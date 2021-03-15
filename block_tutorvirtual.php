@@ -41,6 +41,9 @@ class block_tutorvirtual extends block_list {
 
             // Agregamos la sección de Recursos
             $menu .= $this->listaRecursos();
+      
+            //Agregamos la sección de Ir a la cafeteria
+            $menu .= $this->cafeteria();
 
             //Agregamos la sección de Enviar Mensaje al Profesor
             $menu .= $this->mensajeAlProfesor();
@@ -500,6 +503,13 @@ class block_tutorvirtual extends block_list {
     return $menu;
   }
 
+  function cafeteria(){
+    $menu = html_writer::start_tag('li');
+      $menu .= '<a id="cafeteria" href="https://www.matematicas.uady.mx/">'.get_string('cafeteria', 'block_tutorvirtual').'</a>';
+    $menu .= html_writer::end_tag('li');
+    return $menu;
+  }
+  
   function preguntasPlataforma(){
    $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('faqMoodle', 'block_tutorvirtual').'</a>';
