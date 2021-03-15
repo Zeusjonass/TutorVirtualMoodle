@@ -767,21 +767,22 @@ class block_tutorvirtual extends block_list {
   }
   
    function bubble_sort($timedActivities){
-    $timedActivities = $timedActivities;
+    //$timedActivities = $timedActivities;
     if(count($timedActivities) > 1){
-      $size = count($timedActivities) - 1;
-      for($i=0; $i<$size; $i++){
-        for ($j=0; $j<$size-$i; $j++) {
-          $k = $j+1;
-          if ($timedActivities[$k]['fecha'] < $timedActivities[$j]['fecha']) {
-            // Swap elements at indices: $j, $k
-            list($timedActivities[$j], $timedActivities[$k]) = array($timedActivities[$k], $timedActivities[$j]);
+      $size = count($timedActivities);
+      for ($i = $size - 1; $i > 0; $i--){
+        for($j = 0; $j<$i; $j++){
+          if($timedActivities[$j]['fecha'] > $timedActivities[$j+1]['fecha']){
+            $temp = $timedActivities[$j];
+            $timedActivities[$j] = $timedActivities[$j+1];
+            $timedActivities[$j + 1] = $temp;
           }
         }
+      }
 
         return $timedActivities;
-      }
-    } else{
+    }
+    else{
       return $timedActivities;
     }
     
