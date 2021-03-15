@@ -764,7 +764,7 @@ class block_tutorvirtual extends block_list {
           $k = $j+1;
           if ($timedActivities[$k]['fecha'] < $timedActivities[$j]['fecha']) {
             // Swap elements at indices: $j, $k
-            list($timedActivities[$j]['fecha'], $timedActivities[$k]['fecha']) = array($timedActivities[$k]['fecha'], $timedActivities[$j]['fecha']);
+            list($timedActivities[$j], $timedActivities[$k]) = array($timedActivities[$k], $timedActivities[$j]);
           }
         }
 
