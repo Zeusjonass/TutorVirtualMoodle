@@ -24,11 +24,9 @@ class block_tutorvirtual extends block_list {
     $this->content->items = array();
     $this->content->icons = array();
 
-    $context = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     //Validamos que el usuario sea un estudiante
-    //$coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
-    if(false){
-    //if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
+    $coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
+    if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
         $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
@@ -44,7 +42,7 @@ class block_tutorvirtual extends block_list {
             $menu .= $this->listaRecursos();
       
             //Agregamos la sección de Ir a la cafeteria
-            $menu .= $this->cafeteria();
+            //$menu .= $this->linkCafeteria();
 
             //Agregamos la sección de Enviar Mensaje al Profesor
             $menu .= $this->mensajeAlProfesor();
@@ -504,7 +502,7 @@ class block_tutorvirtual extends block_list {
     return $menu;
   }
 
-  function cafeteria(){
+  function linkCafeteria(){
     $menu = html_writer::start_tag('li');
       $menu .= '<a id="cafeteria" href="https://www.matematicas.uady.mx/">'.get_string('cafeteria', 'block_tutorvirtual').'</a>';
     $menu .= html_writer::end_tag('li');
