@@ -504,7 +504,8 @@ class block_tutorvirtual extends block_list {
 
   function linkCafeteria(){
     $menu = html_writer::start_tag('li');
-      $menu .= '<a id="cafeteria" href="https://www.matematicas.uady.mx/">'.get_string('cafeteria', 'block_tutorvirtual').'</a>';
+      //Colocar el link en el href de abajo
+      $menu .= '<a id="cafeteria" href="El link va aquí">'.get_string('cafeteria', 'block_tutorvirtual').'</a>';
     $menu .= html_writer::end_tag('li');
     return $menu;
   }
@@ -701,15 +702,15 @@ class block_tutorvirtual extends block_list {
     return true;
   }
 
-  public function enviarMensaje($message_content){
-      global $DB;
-      global $PAGE;
-      global $USER;
-      $teachers = $this->get_course_teachers($DB, $PAGE);
-      foreach ($teachers as $teacher) {
-        $this->send_message_to_course_teacher($USER, $teacher, $PAGE, $message_content);
-      }
+  function enviarMensaje($message_content){
+    global $DB;
+    global $PAGE;
+    global $USER;
+    $teachers = $this->get_course_teachers($DB, $PAGE);
+    foreach ($teachers as $teacher) {
+      $this->send_message_to_course_teacher($USER, $teacher, $PAGE, $message_content);
     }
+  }
 
   function get_course_teachers(mariadb_native_moodle_database $DB, moodle_page $PAGE) {
     $courseid = $PAGE->course->id;
