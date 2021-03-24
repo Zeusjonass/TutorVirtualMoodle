@@ -1,5 +1,5 @@
 #div-arrastrable {
-    position: fixed;
+    position: relative;
     z-index: 1000;  
 }
 
