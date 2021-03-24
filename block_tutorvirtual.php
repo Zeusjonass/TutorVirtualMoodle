@@ -28,7 +28,7 @@ class block_tutorvirtual extends block_list {
     $coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
-        $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
+        $menu = html_writer::start_tag('div', array('onclick'=>'arrastrable()', 'id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
           $menu .= html_writer::empty_tag('img', array('id'=>'btn-huellita', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
         $menu .= html_writer::end_tag('div');
