@@ -1,6 +1,9 @@
 // Make the DIV element draggable:
-dragElement(document.getElementById("div-arrastrable"));
-
+function arrastrable(){
+  document.getElementById("div-arrastrable").style.position="fixed";
+  dragElement(document.getElementById("div-arrastrable"));
+}
+ 
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
   elmnt.onmousedown = dragMouseDown;
