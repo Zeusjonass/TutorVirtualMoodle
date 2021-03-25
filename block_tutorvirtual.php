@@ -712,7 +712,7 @@ class block_tutorvirtual extends block_list {
     }
   }
 
-  function get_course_teachers(mariadb_native_moodle_database $DB, moodle_page $PAGE) {
+  function get_course_teachers($DB, $PAGE) {
     $courseid = $PAGE->course->id;
     $role = $DB->get_record('role', array('shortname' => 'editingteacher'));
     $context = get_context_instance(CONTEXT_COURSE, $courseid);
@@ -720,7 +720,7 @@ class block_tutorvirtual extends block_list {
     return $teachers;
   }
 
-  function send_message_to_course_teacher(stdClass $USER, stdClass $teacher, moodle_page $PAGE, $message_content) {
+  function send_message_to_course_teacher(stdClass $USER, stdClass $teacher, $PAGE, $message_content) {
       //create message
       $message = new \core\message\message();
       $message->component = 'moodle';
