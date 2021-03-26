@@ -1,3 +1,4 @@
+
 <?php
 ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
@@ -15,7 +16,7 @@ class block_tutorvirtual extends block_list {
     $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/amd/src/scriptact.js') );
     $PAGE->requires->js( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/amd/src/DragAndDrop.js') );
     $PAGE->requires->css( new moodle_url($CFG->wwwroot . '/blocks/tutorvirtual/styles.css') );
-    
+
     if ($this->content !== null) {
       return $this->content;
     }
@@ -40,13 +41,13 @@ class block_tutorvirtual extends block_list {
 
             // Agregamos la sección de Recursos
             $menu .= $this->listaRecursos();
-      
+
             //Agregamos la sección de Ir a la cafeteria
             //$menu .= $this->linkCafeteria();
 
             //Agregamos la sección de Enviar Mensaje al Profesor
             $menu .= $this->mensajeAlProfesor();
-            
+
             // Agregamos la sección de Preguntas Frecuentes de la Plataforma
             $menu .= $this->preguntasPlataforma();
 
@@ -86,7 +87,7 @@ class block_tutorvirtual extends block_list {
 
     return $this->content;
   }
-  
+
   function guardarPregunta($unidad, $pregunta, $respuesta){
     global $DB, $CFG, $USER, $PAGE;
     $dataObj = new stdClass();
@@ -113,196 +114,222 @@ class block_tutorvirtual extends block_list {
                   //$sql = '';
                 } else {
                   if ($tipoActividad == 'forum') {
-                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS module, 
+                    $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress,
                     mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS element_name
-                    FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = 
+                    FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id =
                     mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
-                    INNER JOIN mdl_'.$tipoActividad.' ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id 
+                    INNER JOIN mdl_'.$tipoActividad.' ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id
                     AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                    $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                    $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'element_name'),0,0);
                     $moduleId = array_column($modules, 'id');
                     $moduleType = array_column($modules, 'type');
+                    $moduleDelete = array_column($modules, 'deletioninprogress');
                     $moduleInstance = array_column($modules, 'instance');
-                    $moduleName = array_column($modules, 'name');
-                    for ($i=0; $i<count($moduleId); $i++) {
-                      if ($moduleName[$i] != 'Avisos') {
-                        $activity = array();
-                        $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                        $activity['nombre'] = $moduleName[$i];
-                        array_push($untimedActivities, $activity);
-                      }
-                    }
-                  } else if($tipoActividad == 'assign'){     
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, 
-                      mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
-                      INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course 
-                      AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                      $moduleId = array_column($modules, 'id');
-                      $moduleType = array_column($modules, 'type');
-                      $moduleInstance = array_column($modules, 'instance');
-                      $moduleName = array_column($modules, 'name');
-                      $moduleDuedate = array_column($modules, 'duedate');
+                    $moduleName = array_column($modules, 'element_name');
 
-                      for ($i=0; $i <count($moduleId); $i++) {
-                        if($moduleDuedate[$i] == 0){
+                    for ($i=0; $i<count($moduleId); $i++) {
+                      if ($moduleDelete[$i] == 0) {
+                        if ($moduleName[$i] != 'Avisos') {
                           $activity = array();
                           $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
                           $activity['nombre'] = $moduleName[$i];
                           array_push($untimedActivities, $activity);
                         }
-                        else if($moduleDuedate[$i] > time()){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          $activity['fecha'] = $moduleDuedate[$i];
-                          array_push($timedActivities, $activity);
+                      }
+                    }
+                  } else if($tipoActividad == 'assign'){
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance,
+                      mdl_'.$tipoActividad.'.name AS name, mdl_'.$tipoActividad.'.duedate as duedate
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
+                      INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course
+                      AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'deletioninprogress','instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+                      $moduleDuedate = array_column($modules, 'duedate');
+
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if ($moduleDelete[$i] == 0) {
+                          if($moduleDuedate[$i] == 0){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            array_push($untimedActivities, $activity);
+                          }
+                          else if($moduleDuedate[$i] > time()){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            $activity['fecha'] = $moduleDuedate[$i];
+                            array_push($timedActivities, $activity);
+                          }
                         }
                       }
                     }
                     else if($tipoActividad == 'quiz'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name,
                       mdl_'.$tipoActividad.'.timeclose as timeclose
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
                       INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course 
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course
                       AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
                       $moduleInstance = array_column($modules, 'instance');
                       $moduleName = array_column($modules, 'name');
                       $moduleTimeclose = array_column($modules, 'timeclose');
 
                       for ($i=0; $i <count($moduleId); $i++) {
-                        if($moduleTimeclose[$i] == 0){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          array_push($untimedActivities, $activity);
-                        }
-                        else if($moduleTimeclose[$i] > time()){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          $activity['fecha'] = $moduleTimeclose[$i];
-                          array_push($timedActivities, $activity);
+                        if ($moduleDelete[$i] == 0) {
+                          if($moduleTimeclose[$i] == 0){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            array_push($untimedActivities, $activity);
+                          }
+                          else if($moduleTimeclose[$i] > time()){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            $activity['fecha'] = $moduleTimeclose[$i];
+                            array_push($timedActivities, $activity);
+                          }
                         }
                       }
                     }
                     else if($tipoActividad == 'chat'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name,
                       mdl_'.$tipoActividad.'.chattime as chattime
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
                       INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id 
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id
                       AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name', 'chattime'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
                       $moduleInstance = array_column($modules, 'instance');
                       $moduleName = array_column($modules, 'name');
                       $moduleChattime = array_column($modules, 'chattime');
 
                       for ($i=0; $i <count($moduleId); $i++) {
-                        if($moduleChattime[$i] == 0){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          array_push($untimedActivities, $activity);
+                        if ($moduleDelete[$i] == 0) {
+                          if($moduleChattime[$i] == 0){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            array_push($untimedActivities, $activity);
+                          }
+                          else if($moduleChattime[$i] > time()){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            $activity['fecha'] = $moduleChattime[$i];
+                            array_push($timedActivities, $activity);
+                          }
                         }
-                        else if($moduleChattime[$i] > time()){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          $activity['fecha'] = $moduleChattime[$i];
-                          array_push($timedActivities, $activity);
-                        }
+
                       }
                     }
                     else if($tipoActividad == 'workshop'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name,
                       mdl_'.$tipoActividad.'.submissionend as submissionend
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
                       INNER JOIN mdl_'.$tipoActividad.'
                       ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'deletioninprogress', 'instance', 'name'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
                       $moduleInstance = array_column($modules, 'instance');
                       $moduleName = array_column($modules, 'name');
                       $moduleSubmissionend = array_column($modules, 'submissionend');
 
+
                       for ($i=0; $i <count($moduleId); $i++) {
-                        if($moduleSubmissionend[$i] == 0 || $moduleSubmissionend[$i] == 1616706660){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          array_push($untimedActivities, $activity);
+                        if ($moduleDelete[$i] == 0) {
+                          if($moduleSubmissionend[$i] == 0 || $moduleSubmissionend[$i] == 1616706660){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            array_push($untimedActivities, $activity);
+                          }
+                          else if($moduleSubmissionend[$i] > time()){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            $activity['fecha'] = $moduleSubmissionend[$i];
+                            array_push($timedActivities, $activity);
+                          }
                         }
-                        else if($moduleSubmissionend[$i] > time()){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          $activity['fecha'] = $moduleSubmissionend[$i];
-                          array_push($timedActivities, $activity);
-                        }
+
                       }
                     }
                     else if($tipoActividad == 'data'){
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name, 
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name,
                       mdl_'.$tipoActividad.'.timeavailableto as timeavailableto
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
                       INNER JOIN mdl_'.$tipoActividad.'
                       ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
+                      $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name', 'timeavailableto'),0,0);
                       $moduleId = array_column($modules, 'id');
                       $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
                       $moduleInstance = array_column($modules, 'instance');
                       $moduleName = array_column($modules, 'name');
                       $moduleTimeavailableto = array_column($modules, 'timeavailableto');
 
                       for ($i=0; $i <count($moduleId); $i++) {
-                        if($moduleTimeavailableto[$i] == 0){
+                        if ($moduleDelete[$i] == 0) {
+                          if($moduleTimeavailableto[$i] == 0){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            array_push($untimedActivities, $activity);
+                          }
+                          else if($moduleTimeavailableto[$i] > time()){
+                            $activity = array();
+                            $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
+                            $activity['nombre'] = $moduleName[$i];
+                            $activity['fecha'] = $moduleTimeavailableto[$i];
+                            array_push($timedActivities, $activity);
+                          }
+                        }
+                      }
+                    }
+                    else{
+                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
+                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
+                      INNER JOIN mdl_'.$tipoActividad.'
+                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
+                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'deletioninprogress', 'instance', 'name'),0,0);
+                      $moduleId = array_column($modules, 'id');
+                      $moduleType = array_column($modules, 'type');
+                      $moduleDelete = array_column($modules, 'deletioninprogress');
+                      $moduleInstance = array_column($modules, 'instance');
+                      $moduleName = array_column($modules, 'name');
+
+                      for ($i=0; $i <count($moduleId); $i++) {
+                        if ($moduleDelete[$i] == 0) {
                           $activity = array();
                           $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
                           $activity['nombre'] = $moduleName[$i];
                           array_push($untimedActivities, $activity);
                         }
-                        else if($moduleTimeavailableto[$i] > time()){
-                          $activity = array();
-                          $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                          $activity['nombre'] = $moduleName[$i];
-                          $activity['fecha'] = $moduleTimeavailableto[$i];
-                          array_push($timedActivities, $activity);
-                        }
-                      }
-                    }
-                    else{
-                      $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoActividad.'.name AS name
-                      FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
-                      INNER JOIN mdl_'.$tipoActividad.'
-                      ON (mdl_course_modules.instance = mdl_'.$tipoActividad.'.id AND mdl_course_modules.course = mdl_'.$tipoActividad.'.course AND mdl_modules.name = "'.$tipoActividad.'")';
-                      $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'),0,0);
-                      $moduleId = array_column($modules, 'id');
-                      $moduleType = array_column($modules, 'type');
-                      $moduleInstance = array_column($modules, 'instance');
-                      $moduleName = array_column($modules, 'name');
-
-                      for ($i=0; $i <count($moduleId); $i++) {
-                        $activity = array();
-                        $activity['link'] = $CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i];
-                        $activity['nombre'] = $moduleName[$i];
-                        array_push($untimedActivities, $activity);
                       }
                     }
                 }
               }
 
               $timedActivitesSorted = $this->bubble_sort($timedActivities);
-              
+
               for($i=0; $i<count($timedActivitesSorted); $i++){
                 if($timedActivitesSorted[$i]['nombre'] != null){
                   $fechaEntrega = getdate($timedActivitesSorted[$i]['fecha']);
@@ -332,18 +359,19 @@ class block_tutorvirtual extends block_list {
     $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('resources', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('id'=>'listaRecursos', 'class'=>'lista-tutorVirtual submenu-1 cursor-default'));
-        
-        $tiposRecursos = array('book','folder','files','page','url','imscp','label'); 
+
+        $tiposRecursos = array('book','folder','files','page','url','imscp','label');
 
         foreach($tiposRecursos as $tipoRecurso){
           if($tipoRecurso == 'book'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -351,23 +379,27 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('books', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                      }
                   }
+
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
             }
           }
 
           if($tipoRecurso == 'folder'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -375,9 +407,12 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('folders', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                    }
+
                   }
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
@@ -385,13 +420,14 @@ class block_tutorvirtual extends block_list {
           }
 
           if($tipoRecurso == 'page'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type', 'deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -399,9 +435,12 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('pages', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                    }
+
                   }
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
@@ -409,13 +448,14 @@ class block_tutorvirtual extends block_list {
           }
 
           if($tipoRecurso == 'url'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -423,9 +463,12 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('urls', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                    }
+
                   }
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
@@ -433,13 +476,14 @@ class block_tutorvirtual extends block_list {
           }
 
           if($tipoRecurso == 'imscp'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -447,9 +491,12 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('imscp', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                    }
+
                   }
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
@@ -457,13 +504,14 @@ class block_tutorvirtual extends block_list {
           }
 
           if($tipoRecurso == 'label'){
-            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
-              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.') 
+            $sql = 'SELECT mdl_course_modules.id, mdl_modules.name AS type, mdl_course_modules.deletioninprogress, mdl_course_modules.instance, mdl_'.$tipoRecurso.'.name AS name
+              FROM mdl_modules INNER JOIN mdl_course_modules ON (mdl_modules.id = mdl_course_modules.module AND mdl_course_modules.course = '.$idCourse.')
               INNER JOIN mdl_'.$tipoRecurso.'
               ON (mdl_course_modules.instance = mdl_'.$tipoRecurso.'.id AND mdl_course_modules.course = mdl_'.$tipoRecurso.'.course AND mdl_modules.name = "'.$tipoRecurso.'")';
-            $modules = $DB->get_records_sql($sql, array('id', 'type', 'instance', 'name'), 0, 0);
+            $modules = $DB->get_records_sql($sql, array('id', 'type','deletioninprogress', 'instance', 'name'), 0, 0);
             $moduleId = array_column($modules, 'id');
             $moduleType = array_column($modules, 'type');
+            $moduleDelete = array_column($modules, 'deletioninprogress');
             $moduleInstance = array_column($modules, 'instance');
             $moduleName = array_column($modules, 'name');
             if(count($moduleId) > 0){
@@ -471,16 +519,19 @@ class block_tutorvirtual extends block_list {
                 $menu .= '<a>'.get_string('labels', 'block_tutorvirtual').'</a>';
                 $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 scroll'));
                   for ($i=0; $i<count($moduleId); $i++) {
-                    $menu .= html_writer::start_tag('li');
-                    $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
-                    $menu .= html_writer::end_tag('li');
+                    if ($moduleDelete[$i] == 0) {
+                      $menu .= html_writer::start_tag('li');
+                      $menu .= html_writer::link($CFG->wwwroot . "/mod/".$moduleType[$i]."/view.php?id=".$moduleId[$i], $moduleName[$i]);
+                      $menu .= html_writer::end_tag('li');
+                    }
+
                   }
                 $menu .= html_writer::end_tag('ul');
               $menu .= html_writer::end_tag('li');
             }
           }
         }
-      $menu .= html_writer::end_tag('ul'); 
+      $menu .= html_writer::end_tag('ul');
     $menu .= html_writer::end_tag('li');
     return $menu;
   }
@@ -509,12 +560,12 @@ class block_tutorvirtual extends block_list {
     $menu .= html_writer::end_tag('li');
     return $menu;
   }
-  
+
   function preguntasPlataforma(){
    $menu = html_writer::start_tag('li');
       $menu .= '<a>'.get_string('faqMoodle', 'block_tutorvirtual').'</a>';
       $menu .= html_writer::start_tag('ul', array('id'=>'preguntasFrecuentesPlataforma', 'class'=>'lista-tutorVirtual submenu-1 cursor-default'));
-        
+
       $menu .= html_writer::start_tag('li');
         $menu .= '<a>'.get_string('faqMoodleT1', 'block_tutorvirtual').'</a>';
           $menu .= html_writer::start_tag('ul', array('class'=>'lista-tutorVirtual submenu-2 cursor-default'));
@@ -755,7 +806,7 @@ class block_tutorvirtual extends block_list {
     // Shuffle the $str_result and returns substring of specified length
     return substr(str_shuffle($str_result),0, $length_of_string);
   }
-  
+
   public function add_minute_digits($minutes){
     $finalMinutes = "";
     if($minutes < 10){
@@ -766,7 +817,7 @@ class block_tutorvirtual extends block_list {
       return $finalMinutes;
     }
   }
-  
+
    function bubble_sort($timedActivities){
     //$timedActivities = $timedActivities;
     if(count($timedActivities) > 1){
@@ -786,12 +837,13 @@ class block_tutorvirtual extends block_list {
     else{
       return $timedActivities;
     }
-    
+
   }
-  
+
   function _self_test() {
     return true;
   }
-  
+
 }
 ?>
+
