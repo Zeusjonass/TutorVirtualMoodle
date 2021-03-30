@@ -31,7 +31,7 @@ class block_tutorvirtual extends block_list {
         //Menú Principal
         $menu = html_writer::start_tag('div', array('onclick'=>'arrastrable()', 'id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
-          $menu .= html_writer::empty_tag('img', array('id'=>'btn-huellita', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+          $menu .= html_writer::empty_tag('img', array('id'=>'btn-huellita', 'src'=>'https://i.ibb.co/vhC1VzP/huellita.png'));
         $menu .= html_writer::end_tag('div');
         $menu .= html_writer::start_tag('div', array());
           $menu .= html_writer::start_tag('ul', array('id'=>'listaPrincipal', 'class'=>'lista-tutorVirtual cursor-default'));
@@ -715,7 +715,7 @@ class block_tutorvirtual extends block_list {
       }
     }
     $formulario = html_writer::start_tag('div', array('id'=>'divImgTutorVirtual'));
-      $formulario .= html_writer::empty_tag('img', array('id'=>'imgTutorVirtual', 'src'=>'https://media.discordapp.net/attachments/699813602328051765/812826296307548191/huellita.png?width=388&height=406'));
+      $formulario .= html_writer::empty_tag('img', array('id'=>'imgTutorVirtual', 'src'=>'https://i.ibb.co/fQNMQyj/Lobo.png'));
     $formulario .= html_writer::end_tag('div');
     $formulario .= html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
       $formulario .= html_writer::div(get_string('formTitle', 'block_tutorvirtual'),  array('id' => 'title'));
@@ -846,4 +846,5 @@ class block_tutorvirtual extends block_list {
 
 }
 ?>
+
 
