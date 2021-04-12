@@ -1,5 +1,5 @@
 #div-arrastrable {
-    position: relative;
+    position: absolute;
     z-index: 1000;  
 }
 
@@ -56,13 +56,10 @@
     width: 350px;
 }
 
-#listaRecursos{
-
-}
-
 #imgTutorVirtual{
     width: 200px;
     height: 150px;
+    margin: 10px 10%;
 }
 
 #mensajeProfesor{
@@ -121,44 +118,52 @@
 }
 
 /*Hover*/
-.lista-tutorVirtual li:hover .submenu-1{
+.lista-tutorVirtual li:target .submenu-1{
     visibility: visible;
 
 }
 
-.submenu-1 li:hover .submenu-2{
+.submenu-1 li:target .submenu-2{
     visibility: visible;
 }
 
-.lista-tutorVirtual > li:hover{
+.lista-tutorVirtual > li:target{
     background-color: #C68D2A;
 }
 
-.lista-tutorVirtual li:hover > a {
+.lista-tutorVirtual li:target > a {
     color: white;
     font-weight: bold;
 }
 
-.lista-tutorVirtual li:hover > p {
+.lista-tutorVirtual li:target > p {
     color: white;
 }
 
-.boton:hover{
+.boton:target{
     background-color: #0d5da8;
 }
 
-#preguntasFrecuentesPlataforma li ul li a:hover + p{
+#preguntasFrecuentesPlataforma li ul li a:target + p{
     display: block;
-    
 }
 
-#preguntasFrecuentesCurso li ul li a:hover + p{
+#preguntasFrecuentesCurso li ul li a:target + p{
     display: block;
-    
 }
 
-#cafeteria:hover{
+#cafeteria:target{
     cursor: pointer;
+}
+
+@media (max-width: 800px) {
+    #preguntasFrecuentesPlataforma .submenu-2{
+        width: 300px;
+    }
+
+    #preguntasFrecuentesCurso .submenu-2{
+        width: 300px;
+    }
 }
 
 /*Cursores*/
