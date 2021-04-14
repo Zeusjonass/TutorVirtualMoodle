@@ -1,6 +1,6 @@
 // Make the DIV element draggable:
 function arrastrable(){
-  document.getElementById("div-arrastrable").style.position="fixed";
+  document.getElementById("div-arrastrable").style.position="absolute";
   dragElement(document.getElementById("div-arrastrable"));
 }
  
