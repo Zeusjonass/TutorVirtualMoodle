@@ -118,41 +118,41 @@
 }
 
 /*Hover*/
-.lista-tutorVirtual li:target .submenu-1{
+.lista-tutorVirtual li:hover .submenu-1{
     visibility: visible;
 
 }
 
-.submenu-1 li:target .submenu-2{
+.submenu-1 li:hover .submenu-2{
     visibility: visible;
 }
 
-.lista-tutorVirtual > li:target{
+.lista-tutorVirtual > li:hover{
     background-color: #C68D2A;
 }
 
-.lista-tutorVirtual li:target > a {
+.lista-tutorVirtual li:hover > a {
     color: white;
     font-weight: bold;
 }
 
-.lista-tutorVirtual li:target > p {
+.lista-tutorVirtual li:hover > p {
     color: white;
 }
 
-.boton:target{
+.boton:hover{
     background-color: #0d5da8;
 }
 
-#preguntasFrecuentesPlataforma li ul li a:target + p{
+#preguntasFrecuentesPlataforma li ul li a:hover + p{
     display: block;
 }
 
-#preguntasFrecuentesCurso li ul li a:target + p{
+#preguntasFrecuentesCurso li ul li a:hover + p{
     display: block;
 }
 
-#cafeteria:target{
+#cafeteria:hover{
     cursor: pointer;
 }
 
