@@ -37,12 +37,12 @@
 }
 
 .submenu-1{
-    visibility: hidden;
+    display: none;
     z-index: 2;
 }
 
 .submenu-2{
-    visibility: hidden;
+    display: none;
     z-index: 3;
 }
 
@@ -119,12 +119,12 @@
 
 /*Hover*/
 .lista-tutorVirtual li:hover .submenu-1{
-    visibility: visible;
+    display: block;
 
 }
 
 .submenu-1 li:hover .submenu-2{
-    visibility: visible;
+    display: block;
 }
 
 .lista-tutorVirtual > li:hover{
