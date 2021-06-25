@@ -1,12 +1,16 @@
 // Make the DIV element draggable:
-function arrastrable(){
-  document.getElementById("div-arrastrable").style.position="absolute";
-  dragElement(document.getElementById("div-arrastrable"));
-}
- 
+dragElement(document.getElementById("div-arrastrable"));
+
 function dragElement(elmnt) {
   var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  elmnt.onmousedown = dragMouseDown;
+
+  if (document.getElementById("img-wrapper")) {
+    // if present, the header is where you move the DIV from:
+    document.getElementById("img-wrapper").onmousedown = dragMouseDown;
+  } else {
+    // otherwise, move the DIV from anywhere inside the DIV:
+    elmnt.onmousedown = dragMouseDown;
+  }
 
   function dragMouseDown(e) {
     e = e || window.event;
