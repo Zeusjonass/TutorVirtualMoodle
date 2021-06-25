@@ -15,15 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version details
+ * Strings for the quizaccess_facialrecognition plugin.
  *
- * @package    tutorvirtual
- * @copyright  1999 onwards Martin Dougiamas (http://dougiamas.com)
+ * @package    block_tutorvirtual
+ * @copyright  2020 UADY
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2020041700;         // The current plugin version (Date: YYYYMMDDXX)
+$plugin->version   = 2020041703;         // The current plugin version (Date: YYYYMMDDXX)
 $plugin->requires  = 2019111200;         // Requires this Moodle version
 $plugin->component = 'block_tutorvirtual'; // Full name of the plugin (used for diagnostics)
