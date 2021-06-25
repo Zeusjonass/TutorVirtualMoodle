@@ -18,105 +18,107 @@
  * Strings for the quizaccess_facialrecognition plugin.
  *
  * @package    block_tutorvirtual
- * @copyright  2020 _____________________
+ * @copyright  2020 UADY
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 $string['pluginname'] = 'Tutor virtual';
 $string['tutorVirtual'] = 'Tutor Virtual';
 $string['title'] = '';
-$string['tutorVirtual:addinstance'] = 'Add a new block Tutor virtual';
-$string['tutorVirtual:myaddinstance'] = 'Add a new Tutor virtual to your Moodle page';
-$string['faqCourse'] = 'Course Frequently Asked Questions';
-$string['faqMoodle'] = 'Platform Frequently Asked Questions';
-$string['savedQuestion'] = 'Thank you very much for registering your question!';
-$string['activities'] = 'Activities';
-$string['resources'] = 'Resources';
-$string['books'] = 'Books';
+$string['tutorVirtual:addinstance'] = 'Agrega un nuevo bloque de tutor virtual';
+$string['tutorVirtual:myaddinstance'] = 'Agrega un nuevo tutor virtual a tu pagina de Moodle';
+$string['faqCourse'] = 'Preguntas Frecuentes del Curso';
+$string['faqMoodle'] = 'Preguntas Frecuentes de la Plataforma';
+$string['savedQuestion'] = 'Muchas gracias por registrar su pregunta!';
+$string['activities'] = 'Actividades';
+$string['resources'] = 'Recursos';
+$string['books'] = 'Libros';
 $string['urls'] = 'URLs';
-$string['folders'] = 'Folders';
-$string['pages'] = 'Pages';
-$string['labels'] = 'Labels';
-$string['imscp'] = 'IMSCP';
-$string['msgTeacher'] = 'Message to the teacher';
-$string['msgCaption'] = 'Do you have any questions? <br> Send a message to your Teacher!';
-$string['formDesc1'] = 'Hello! I am the Virtual Tutor';
-$string['formDesc2'] = 'My purpose is to offer students support while they are taking this course.';
-$string['formDesc3'] = 'Help me to achieve it by entering in the following fields frequently asked questions that can be found in this course.';
-$string['questionSubject'] = 'Question unit:';
-$string['save'] = 'Save';
+$string['folders'] = 'Carpetas';
+$string['cafeteria'] = 'Ir a la Cafetería';
+$string['pages'] = 'Páginas';
+$string['labes'] = 'Etiquetas';
 $string['cafeteria'] = 'Go to the Cafeteria';
+$string['imscp'] = 'IMSCP';
+$string['msgTeacher'] = 'Mensaje al Profesor';
+$string['msgCaption'] = '¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!';
+$string['formDesc1'] = 'Hola! Soy el Tutor Virtual';
+$string['formDesc2'] = 'Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.';
+$string['formDesc3'] = 'Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.';
+$string['questionSubject'] = 'Unidad de la pregunta:';
+$string['save'] = 'Guardar';
+$string['resources'] = 'Recursos';
 //Temas de las preguntas frecuentes de la plataforma
-$string['faqMoodleT1'] = 'Access and Navigation';
-$string['faqMoodleT2'] = 'Course content';
-$string['faqMoodleT3'] = 'Tasks and Grades';
-$string['faqMoodleT4'] = 'Exams';
-$string['faqMoodleT5'] = 'Mails and Forums';
+$string['faqMoodleT1'] = 'Acceso y Navegación';
+$string['faqMoodleT2'] = 'Contenido de Curso';
+$string['faqMoodleT3'] = 'Tareas y Calificaciones';
+$string['faqMoodleT4'] = 'Exámenes';
+$string['faqMoodleT5'] = 'Correos y Foros';
 //Preguntas frecuentes de la plataforma
-$string['faqMoodleQ1'] = 'Why cant I log in?';
-$string['faqMoodleQ2'] = 'How do I gain access to a course?';
-$string['faqMoodleQ3'] = 'How do I jump between my courses?';
-$string['faqMoodleQ4'] = 'How do I get back to the main course page?';
-$string['faqMoodleQ5'] = 'How can I find course X?';
-$string['faqMoodleQ6'] = 'Where have all the topics / weeks gone?';
-$string['faqMoodleQ7'] = 'Why is there no "upload" (or "record") button?';
-$string['faqMoodleQ8'] = 'How can I see the teacher"'"s comments on my recent assignments?';
-$string['faqMoodleQ9'] = 'Why is my course average so low?';
-$string['faqMoodleQ10'] = 'What button do I press when I have finished the exam?';
-$string['faqMoodleQ11'] = 'Why am I getting a zero grade on my exam?';
-$string['faqMoodleQ12'] = 'Why don't I have any email and other users do?';
-$string['faqMoodleQ13'] = 'How can I stop receiving all these emails?';
+$string['faqMoodleQ1'] = '¿Por qué no puedo acceder?';
+$string['faqMoodleQ2'] = '¿Cómo gano acceso a un curso?';
+$string['faqMoodleQ3'] = '¿Cómo salto entre mis cursos?';
+$string['faqMoodleQ4'] = '¿Cómo regreso a la página principal del curso?';
+$string['faqMoodleQ5'] = '¿Cómo puedo encontrar el curso X?';
+$string['faqMoodleQ6'] = '¿A dónde se han ido todos los temas/semanas?';
+$string['faqMoodleQ7'] = '¿Por qué no hay botón de "subir" (o "grabar")?';
+$string['faqMoodleQ8'] = '¿Cómo puedo ver los comentarios del profesor a mis tareas recientes?';
+$string['faqMoodleQ9'] = '¿Por qué mi promedio del curso es tan baja?';
+$string['faqMoodleQ10'] = '¿Qué botón pulso cuando he terminado el examen?';
+$string['faqMoodleQ11'] = '¿Porqué estoy obteniendo cero de calificación en mi examen?';
+$string['faqMoodleQ12'] = '¿Por qué no tengo ningún correo y otros usuarios sí?';
+$string['faqMoodleQ13'] = '¿Cómo puedo dejar de recibir todos estos correos?';
 //Respuestas a las preguntas frecuentes de la plataforma
-$string['faqMoodleA1'] = 'There could be many reasons, but the most likely is that you simply forgot your password,
-You are trying to access with the wrong password or you are typing it incorrectly. Some other possibilities are: <br> <br>
-Does your username or password contain a mix of UPPER CASE and lowercase letters? If so, they must be spelled exactly. <br>
-Are cookies enabled in your browser?';
-$string['faqMoodleA2'] = 'Locate or search for the desired course (You can choose "All courses ..." in the "My courses" block)
-and choose the name of the course. If your teacher has given you a key or password for enrollment, write it where
-and choose "Enroll me in this course". Once you are enrolled in the course, it will appear below
-"My courses" every time you enter the Moodle site. ';
-$string['faqMoodleA3'] = 'Through your My Courses block if it is available
-Go back to the main homepage (see below) and use the My Courses block of the main course
-(if it is available!)';
-$string['faqMoodleA4'] = 'Use the Navigation Bar that is in the upper left part of the page, or use the button in the part
-bottom of the course page.';
-$string['faqMoodleA5'] = 'If you are not already enrolled in a course, you can search for it by name and description, if you are already enrolled it will appear
-on your blog (if available).';
-$string['faqMoodleA6'] = 'You probably clicked on the One.gif icon. To discover all the other themes / weeks you need to press the icon
-All.gif that you will see in the right margin of topics / weeks. If the themes are collapsed you can use the combo
-drop down and move through the displayed topics / weeks to jump to a hidden section.';
-$string['faqMoodleA7'] = 'It may be that: <br> <br>
-The task is closed at the moment. <br>
-The task has not been opened yet. <br>
-You have already uploaded / recorded something before and the settings prevent you from repeating the tasks.';
-$string['faqMoodleA8'] = 'There are many ways to access these comments. The most common method is to go to the same site in
-the one who submitted / uploaded the job. Another method is to click on the link in the block
-"Recent activities", in the event that the teacher has included that block in his course. One more method
-It would consist of accessing the grade book and clicking on the link corresponding to the task.
-Depending on how the task has been configured, you may receive an email if it has been selected
-with a direct link to comments.';
-$string['faqMoodleA9'] = 'Do not panic. The Moodle evaluation system takes into account ungraded and pending work
-shipping. In other words: You start with a zero and as you progress through the course and
-completing the assessable activities your grade will go up little by little.';
-$string['faqMoodleA10'] = 'It depends on what you want to do ...';
-$string['faqMoodleA11'] = 'You may have exceeded the time limit to complete the exam. This should never happen, because
-the descending timer should automatically send the test as soon as time runs out, and then
-the Moodle server should process your submission quickly. However, if the server was overloaded,
-and running slowly, your responses may not be processed until after a time that exceeds the
-margin allowed for sending the exam and you will not be giving points for your answers.';
-$string['faqMoodleA12'] = 'It is possible that your email address in your profile is wrong or disabled. It could also be that
-You have not subscribed to the forums that generate emails. AOL users may not receive mail either
-if the administrator has blocked the use of AOL email addresses.';
-$string['faqMoodleA13'] = 'Email is essential to the operation of Moodle. It is used to keep you informed of
-the news. If you want to reduce the amount of emails you receive you can: <br> <br>
-   Edit your profile and change your email settings to receive summaries. <br>
-   Unsubscribe from non-essential forums (even though they exist for a reason!). <br>
-   Disabling your email address from your profile, although this is not recommended and may be against the house rules.';
+$string['faqMoodleA1'] = 'Podría haber muchas razones, pero la más probable es que simplemente haya olvidado su contraseña, 
+esté intentando acceder con una contraseña equivocada o la esté escribiendo incorrectamente. Algunas otras posibilidades son:<br><br>
+¿Contienen su nombre de usuario o contraseña una mezcla de MAYÚSCULAS y minúsculas?. Si es así, deberán ser escritas en la forma exacta.<br>
+¿Están habilitadas las cookies en su navegador?';
+$string['faqMoodleA2'] = 'Localice o busque el curso deseado (Usted puede elegir "Todos los cursos..." en el bloque de "Mis cursos") 
+y elija el nombre del curso. Si su profesor le ha dado una clave o contraseña para inscripción, escríbala en donde 
+corresponda y elija "Inscríbirme en este curso". Una vez que Usted esté insrito en el curso, aparecerá debajo de 
+"Mis cursos" cada vez que Usted ingrese al sitio Moodle.';
+$string['faqMoodleA3'] = 'Mediante su bloque de Mis Cursos si está disponible
+Vuelva a la página principal homepage (vea más adelante) y utilice el bloque de Mis Cursos del curso principal 
+(si está disponible!)';
+$string['faqMoodleA4'] = 'Utilice la Barra de navegación que está en la parte superior izquierda de la página, o use el botón en la parte 
+completamente inferior de la página del curso.';
+$string['faqMoodleA5'] = 'Si no está ya inscrito en un curso, puede buscarlo por el nombre y descripción.Si ya está inscrito le aparecerá 
+en su blog ( si está disponible).';
+$string['faqMoodleA6'] = 'Probablemente pulsó en el icono One.gif. Para descubrir todos los otros temas/semanas necesita pulsar el icono 
+All.gif que verá en el margen derecho de temas/semanas. Si los temas están colapsados puede utilizar el combo 
+desplegable y moverse por los temas/semanas que se muestran para saltar a una sección oculta.';
+$string['faqMoodleA7'] = 'Puede ser que:<br><br>
+
+La tarea esté cerrada en este momento.<br>
+La tarea no haya sido abierto aún.<br>
+Ya ha subido/grabado algo antes y la configuración impida que repita las tareas.';
+$string['faqMoodleA8'] = 'Hay muchas maneras de acceder a esos comentarios. El método más común consiste en ir al mismo sitio en 
+el que envió/subió el trabajo. Otro método consiste en pulsar en el vínculo que se encuentra en el bloque 
+"Actividades recientes", en el caso de que el profesor haya incluido ese bloque en su curso. Un método más 
+consistiría en accedere al libro de calificacionesy pinchar en el vínculo correspondiente a la tarea. 
+Dependiendo de cómo se haya configurado la tarea, puede recibir un correo electrónico si ha sido seleccionado 
+con un vínculo directo a los comentarios.';
+$string['faqMoodleA9'] = 'No se asuste. El sistema de evaluación de Moodle tiene en cuenta los trabajos no calificados y los pendientes 
+de envío. Dicho de otro modo: Usted empieza con un cero y a medida que vaya avanzando a través del curso y 
+completando las actividades evaluables su nota subirá poco a poco.';
+$string['faqMoodleA10'] = 'Depende de lo que quiera hacer...';
+$string['faqMoodleA11'] = 'Puede ser que haya excedido el tiempo límite para completar el examen. Esto nunca debería de suceder, porque 
+el cronómetro descendiente debería de enviar el examen automáticamente en cuanto se agote el tiempo, y después 
+el servidor Moodle debería de procesar su envío rápidamente. Sin embargo, si el servidor estuviera sobrecargado, 
+y corriendo lentamente, sus respuestas podrían no ser procesadas hasta después de un tiempo que sobrepasa el 
+margen permitido para envío del examen y a Usted no le estarán dando puntos para sus respuestas.';
+$string['faqMoodleA12'] = 'Es posible que su dirección de correo en su perfil esté errónea o deshabilitada. También pudiera ser que 
+no se haya suscrito a los foros que generan correos. Los usuarios AOL pueden no recibir correo tampoco 
+si el administrador ha bloqueado el uso de direcciones de correo AOL.';
+$string['faqMoodleA13'] = 'El correo electrónico es esencial para el funcionamiento de Moodle. Se emplea para mantenerte informado de 
+las novedades. Si quieres reducir la cantidad de correos que recibes puedes:<br><br>
+
+  Editar su perfil y cambiar su configuración de e-mail para recibir resúmenes.<br>
+  Cancelar su subscripción a foros no esenciales (¡aunque existen por algo!).<br>
+  Inhabilitar su dirección de correo electrónico de su perfil, aunque esto no recomendable y puede ir en contra de las reglas de la casa.';
 //Formulario del profesor
-$string['topic'] = 'Topic';
-$string['formTitle'] = 'Hello! I am the virtual tutor';
-$string['formDesc1'] = 'My purpose is to offer students support while they are taking this course.';
-$string['formDesc2'] = 'Help me to achieve it by entering in the following fields frequently asked questions that can be found in this course.';
-$string['labelTopic'] = 'Question subject:';
-$string['labelQuestion'] = 'Question:';
-$string['labelAnswer'] = 'Answer:';
+$string['topic'] = 'Tema';
+$string['formTitle'] = '¡Hola! Soy el tutor virtual';
+$string['labelTopic'] = 'Tema de la pregunta:';
+$string['labelQuestion'] = 'Pregunta:';
+$string['labelAnswer'] = 'Respuesta:';
