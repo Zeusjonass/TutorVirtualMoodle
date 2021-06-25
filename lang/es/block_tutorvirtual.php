@@ -18,7 +18,7 @@
  * Strings for the quizaccess_facialrecognition plugin.
  *
  * @package    block_tutorvirtual
- * @copyright  2020 _____________________
+ * @copyright  2020 UADY
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -36,7 +36,7 @@ $string['books'] = 'Libros';
 $string['urls'] = 'URLs';
 $string['folders'] = 'Carpetas';
 $string['pages'] = 'Páginas';
-$string['labels'] = 'Etiquetas';
+$string['labes'] = 'Etiquetas';
 $string['imscp'] = 'IMSCP';
 $string['msgTeacher'] = 'Mensaje al Profesor';
 $string['msgCaption'] = '¿Tienes alguna duda?<br>¡Envíale un mensaje a tu Profesor(a)!';
@@ -45,7 +45,7 @@ $string['formDesc2'] = 'Mi propósito es ofrecer a lo estudiantes apoyo mientras
 $string['formDesc3'] = 'Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.';
 $string['questionSubject'] = 'Unidad de la pregunta:';
 $string['save'] = 'Guardar';
-$string['cafeteria'] = 'Ir a la cafetería';
+$string['resources'] = 'Recursos';
 //Temas de las preguntas frecuentes de la plataforma
 $string['faqMoodleT1'] = 'Acceso y Navegación';
 $string['faqMoodleT2'] = 'Contenido de Curso';
@@ -117,8 +117,6 @@ las novedades. Si quieres reducir la cantidad de correos que recibes puedes:<br>
 //Formulario del profesor
 $string['topic'] = 'Tema';
 $string['formTitle'] = '¡Hola! Soy el tutor virtual';
-$string['formDesc1'] = 'Mi propósito es ofrecer a lo estudiantes apoyo mientras cursan esta materia.';
-$string['formDesc2'] = 'Ayúdame a lograrlo ingresando en los siguientes campos preguntas frecuentes que puedan encontrarse en este curso.';
 $string['labelTopic'] = 'Tema de la pregunta:';
 $string['labelQuestion'] = 'Pregunta:';
 $string['labelAnswer'] = 'Respuesta:';
