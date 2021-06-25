@@ -1,4 +1,3 @@
-
 <?php
 ini_set('session.cache_limiter','public');
 session_cache_limiter(false);
@@ -29,7 +28,7 @@ class block_tutorvirtual extends block_list {
     $coursecontext = get_context_instance(CONTEXT_COURSE, $COURSE->id);
     if (!has_capability('moodle/course:viewhiddensections', $coursecontext)) {
         //Menú Principal
-        $menu = html_writer::start_tag('div', array('onclick'=>'arrastrable()', 'id'=>'div-arrastrable'));
+        $menu = html_writer::start_tag('div', array('id'=>'div-arrastrable'));
         $menu .= html_writer::start_tag('div', array('id'=>'img-wrapper'));
           $menu .= html_writer::empty_tag('img', array('id'=>'btn-huellita', 'src'=>'https://i.ibb.co/vhC1VzP/huellita.png'));
         $menu .= html_writer::end_tag('div');
@@ -719,8 +718,8 @@ class block_tutorvirtual extends block_list {
     $formulario .= html_writer::end_tag('div');
     $formulario .= html_writer::start_tag('form', array('method'=>'post', 'action'=>'', 'id'=>'formulario'));
       $formulario .= html_writer::div(get_string('formTitle', 'block_tutorvirtual'),  array('id' => 'title'));
-      $formulario .= html_writer::div(get_string('formDesc2', 'block_tutorvirtual'),  array('id' => 'desc1', 'class' => 'desc'));
-      $formulario .= html_writer::div(get_string('formDesc3', 'block_tutorvirtual'),  array('id' => 'desc2', 'class' => 'desc'));
+      $formulario .= html_writer::div(get_string('formDesc2', 'block_tutorvirtual'),  array('id' => 'desc2', 'class' => 'desc'));
+      $formulario .= html_writer::div(get_string('formDesc3', 'block_tutorvirtual'),  array('id' => 'desc3', 'class' => 'desc'));
       $formulario .= html_writer::empty_tag('br');
       if(count($section_ids)>1) {
         $formulario .= html_writer::div(get_string('labelTopic', 'block_tutorvirtual'), array('id'=>'labelTema','class'=>'label'));
