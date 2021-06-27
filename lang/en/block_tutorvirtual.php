@@ -24,7 +24,7 @@
 
 $string['pluginname'] = 'Tutor virtual';
 $string['tutorVirtual'] = 'Tutor Virtual';
-$string['title'] = '';
+$string['title'] = 'Tutor Virtual';
 $string['tutorVirtual:addinstance'] = 'Agrega un nuevo bloque de tutor virtual';
 $string['tutorVirtual:myaddinstance'] = 'Agrega un nuevo tutor virtual a tu pagina de Moodle';
 $string['faqCourse'] = 'Preguntas Frecuentes del Curso';
